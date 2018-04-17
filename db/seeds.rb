@@ -9,7 +9,6 @@ require "json"
 array = ["Batman", "Superman", "Spiderman", "The Godfather", "Up",
   "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man"]
 
-
 array.each do |film|
   r = RestClient.get("http://www.omdbapi.com/?t=#{film}&apikey=485b50f7")
   movie = JSON.parse(r)
@@ -23,6 +22,7 @@ array.each do |film|
   imdb_rating = movie["imdbRating"]
   box_office = movie["BoxOffice"]
   production = movie["Production"]
+  binding.pry
   Director.find_or_create_by(name: director)
   binding.pry
 end
