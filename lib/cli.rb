@@ -13,15 +13,24 @@ def list_commands
   "  - Find latest release [latest]"
 end
 
-puts "Welcome to mini-IMDB"
-puts list_commands
-input = gets.chomp().downcase
+def run
+  puts "Welcome to mini-IMDB"
+  puts list_commands
+  input = gets.chomp().downcase
 
-while input != "e"
-  if input == "l"
-    puts list_commands
-  elsif 
-
+  while input != "e"
+    if input == "l"
+      puts list_commands
+    elsif input == input.start_with("t")
+      #query the movie info in the database. If not exists, go query it from
+      #the API and seed to the database and then return the information
+    elsif input == input.start_with("a")
+    elsif input == input.start_with("d")
+    else
+      puts "Please follow the commands"
+    end
   end
 end
-input = gets.chomp
+
+run
+puts "Thanks for using mini-IMDB"
