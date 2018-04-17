@@ -22,10 +22,21 @@ array.each do |film|j
   rating = movie["imdbRating"]
   box_office = movie["BoxOffice"]
   production = movie["Production"]
+
   d = Director.find_or_create_by(name: director)
   m = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
+<<<<<<< HEAD
+  dm_join = DirectedMovie.find_or_create_by(director_id: d, movie_id: m)
+  actors = movie["Actors"].split(",")
+    actors.each do |name|
+      a = Actor.find_or_create_by(name: name)
+      am_join = Cast.find_or_create_by(actor_id: a.id, movie_id: m.id)
+    end
+  binding.pry
+=======
   dm_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
 
+>>>>>>> e7af536008c88e87dc66ae755f178574801deb99
 end
 
 
