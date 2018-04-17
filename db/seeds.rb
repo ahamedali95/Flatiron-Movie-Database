@@ -7,7 +7,7 @@ require "json"
 
 
 array = ["Batman", "Superman", "Spider-man", "The Godfather", "Up",
-  "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man","Nightmare Before Christmas", "Alice in wonderland","Jurassic Park", "Jurassic World", "Batman Returns", "Spider-Man 2", "Ultimate Spider-Man"]
+  "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man","Nightmare Before Christmas", "Alice in wonderland","Jurassic Park", "Jurassic World", "Batman Returns", "Spider-Man 2", "Ultimate Spider-Man","Iron-man","Iron-man 2", "Iron-man 3", "Spider-Man 3", "The Lost World: Jurassic Park", "Jurassic Park III"]
 
 array.each do |film|j
   r = RestClient.get("http://www.omdbapi.com/?t=#{film}&apikey=485b50f7")
