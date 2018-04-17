@@ -13,7 +13,7 @@ def list_commands
   "  - Find latest release [latest]"
 end
 
-def run
+def welcome
   puts "Welcome to mini-IMDB"
   puts list_commands
   input = gets.chomp().downcase
