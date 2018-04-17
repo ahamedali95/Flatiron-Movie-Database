@@ -19,12 +19,11 @@ array.each do |film|
   genre = movie["Genre"]
   director = movie["Director"]
   plot = movie["Plot"]
-  imdb_rating = movie["imdbRating"]
+  rating = movie["imdbRating"]
   box_office = movie["BoxOffice"]
   production = movie["Production"]
-  binding.pry
   Director.find_or_create_by(name: director)
-  binding.pry
+  Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
 end
 
 

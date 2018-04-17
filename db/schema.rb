@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "released"
     t.string "genre"
     t.text "plot"
-    t.string "imdb_rating"
+    t.string "rating"
     t.string "box_office"
     t.string "production"
   end
