@@ -12,7 +12,16 @@ def list_commands
   "  - Find highest grosser [highest]"
   "  - Find latest release [latest]"
 end
-puts "Welcome to mini-IMDB
 
-puts "Enter a movie name: "
+puts "Welcome to mini-IMDB"
+puts list_commands
+input = gets.chomp().downcase
+
+while input != "e"
+  if input == "l"
+    puts list_commands
+  elsif 
+
+  end
+end
 input = gets.chomp
