@@ -1,6 +1,6 @@
-class CreateMoviesDirectedTable < ActiveRecord::Migration[5.1]
+class CreateDirectedMovieTable < ActiveRecord::Migration[5.1]
   def change
-    create_table :movies_directed do |t|
+    create_table :directed_movies do |t|
       t.integer :director_id
       t.integer :movie_id
       #comment
