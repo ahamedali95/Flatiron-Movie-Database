@@ -21,6 +21,11 @@ ActiveRecord::Schema.define(version: 5) do
     t.integer "movie_id"
   end
 
+  create_table "directed_movies", force: :cascade do |t|
+    t.integer "director_id"
+    t.integer "movie_id"
+  end
+
   create_table "directors", force: :cascade do |t|
     t.string "name"
   end
@@ -35,11 +40,6 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "rating"
     t.string "box_office"
     t.string "production"
-  end
-
-  create_table "movies_directed", force: :cascade do |t|
-    t.integer "director_id"
-    t.integer "movie_id"
   end
 
 end

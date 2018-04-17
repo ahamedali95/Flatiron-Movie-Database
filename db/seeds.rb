@@ -25,7 +25,7 @@ array.each do |film|
   d = Director.find_or_create_by(name: director)
   m = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
   binding.pry
-  dm_join = MoviesDirected.find_or_create_by(director_id: d, movie_id: m)
+  dm_join = DirectedMovie.find_or_create_by(director_id: d, movie_id: m)
 end
 
 # binding.pry
