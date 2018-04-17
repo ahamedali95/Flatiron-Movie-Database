@@ -1,4 +1,5 @@
 require_relative "../config/environment.rb"
+require "pry"
 #
 def list_commands
   "Available commands: "
@@ -34,20 +35,12 @@ def run
       #INNER JOIN directed_movies
       #on directors.id = directed_movies.director_id
       #WHERE movies.id = directors.movie_id
-    elsif input ==
+    # elsif input ==
     else
       puts "Please follow the commands"
     end
   end
-
 end
 
-#DO NOT CALL RUN in here.
-def run
-  # list_commands
-  # welcome
-end
-#
-#
-# puts "Thanks for using mini-IMDB"
-end
+binding.pry
+"hello"
