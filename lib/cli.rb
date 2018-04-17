@@ -42,10 +42,10 @@ def welcome
 end
 
 
-def run
-  list_commands
-  welcome
-end
-
-run
-puts "Thanks for using mini-IMDB"
+# def run
+#   list_commands
+#   welcome
+# end
+#
+#
+# puts "Thanks for using mini-IMDB"
