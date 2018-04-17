@@ -6,8 +6,8 @@ require "rest-client"
 require "json"
 
 
-array = ["Batman", "Superman", "Spiderman", "The Godfather", "Up",
-  "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man","Nightmare Before Christmas", "Alice in wonderland"]
+array = ["Batman", "Superman", "Spider-man", "The Godfather", "Up",
+  "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man","Nightmare Before Christmas", "Alice in wonderland","Jurassic Park", "Jurassic World", "Batman Returns", "Spider-Man 2", "Ultimate Spider-Man"]
 
 array.each do |film|j
   r = RestClient.get("http://www.omdbapi.com/?t=#{film}&apikey=485b50f7")
