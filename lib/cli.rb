@@ -34,7 +34,7 @@ def welcome
       #INNER JOIN directed_movies
       #on directors.id = directed_movies.director_id
       #WHERE movies.id = directors.movie_id
-    elsif input ==
+
     else
       puts "Please follow the commands"
     end
@@ -50,4 +50,3 @@ end
 #
 #
 # puts "Thanks for using mini-IMDB"
-end
