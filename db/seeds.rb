@@ -26,8 +26,7 @@ array.each do |film|
   Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
 end
 
+# binding.pry
 
-
-binding.pry
 #hash["posts"][0]["thread"]["site"]
-"hello"
+puts "hello"
