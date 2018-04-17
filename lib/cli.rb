@@ -30,6 +30,10 @@ def run
       #on actors.id = casts.actor_id
       #WHERE movies.id = actors.movie_id
     elsif input == input.start_with("d")
+      #SELECT * FROM directors
+      #INNER JOIN directed_movies
+      #on directors.id = directed_movies.director_id
+      #WHERE movies.id = directors.movie_id
     else
       puts "Please follow the commands"
     end
