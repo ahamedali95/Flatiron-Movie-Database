@@ -6,7 +6,7 @@ class CreateMovieTable < ActiveRecord::Migration[5.1]
       t.string :rated
       t.string :released
       t.string :genre
-      t.text :plot
+      t.text   :plot
       t.string :imdb_rating
       t.string :box_office
       t.string :production
