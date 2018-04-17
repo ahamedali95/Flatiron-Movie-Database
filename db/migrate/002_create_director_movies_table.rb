@@ -4,6 +4,7 @@ class CreateDirectorMovieTable < ActiveRecord::Migration[5.1]
       t.integer :director_id
       t.integer :movie_id
       #comment
+      #another comment
     end
   end
 end
