@@ -39,11 +39,10 @@ def run
       puts "Please follow the commands"
     end
   end
-<<<<<<< HEAD
 
 end
 
-
+#DO NOT CALL RUN in here.
 # def run
 #   list_commands
 #   welcome
@@ -51,9 +50,4 @@ end
 #
 #
 # puts "Thanks for using mini-IMDB"
-=======
 end
-
-run
-puts "Thanks for using mini-IMDB"
->>>>>>> 74cacdb7d6a8e059258021731e1983303ea14098
