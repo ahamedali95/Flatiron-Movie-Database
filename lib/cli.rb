@@ -25,6 +25,10 @@ def run
       #query the movie info in the database. If not exists, go query it from
       #the API and seed to the database and then return the information
     elsif input == input.start_with("a")
+      #SELECT * FROM actors
+      #INNER JOIN casts
+      #on actors.id = casts.actor_id
+      #WHERE movies.id = actors.movie_id
     elsif input == input.start_with("d")
     else
       puts "Please follow the commands"
