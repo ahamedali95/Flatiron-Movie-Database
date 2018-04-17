@@ -10,6 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 5) do
+
+  create_table "actors", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "casts", force: :cascade do |t|
+    t.integer "actor_id"
+    t.integer "movie_id"
+  end
+
+  create_table "directors", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.string "title"
+    t.string "year"
+    t.string "rated"
+    t.string "released"
+    t.string "genre"
+    t.text "plot"
+    t.string "imdb_rating"
+    t.string "box_office"
+    t.string "production"
+  end
+
+  create_table "movies_directed", force: :cascade do |t|
+    t.integer "director_id"
+    t.integer "movie_id"
+  end
 
 end
