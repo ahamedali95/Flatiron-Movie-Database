@@ -43,10 +43,10 @@ def run
 end
 
 #DO NOT CALL RUN in here.
-# def run
-#   list_commands
-#   welcome
-# end
+def run
+  # list_commands
+  # welcome
+end
 #
 #
 # puts "Thanks for using mini-IMDB"
