@@ -1,15 +1,18 @@
 require_relative "../config/environment.rb"
 #
-# puts "Welcome"
-#
-# puts "Enter a movie name: "
-# input = gets.chomp
-#
-# response = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
-# hash = JSON.parse(response)
-#
-# #hash["posts"][0]["thread"]["site"]
-#
-#
-# binding.pry
-"hello"
+def list_commands
+  "Available commands: "
+  "  - List all commands [l]"
+  "  - Exit the program [e]"
+  "  - Info About a movie [title: ?]"
+  "  - Find actors' movies [actor: ?]"
+  "  - Find directors' movies [director: ?]"
+  "  - Find popular movie [popular]"
+  "  - Find oldest movie  [oldest]"
+  "  - Find highest grosser [highest]"
+  "  - Find latest release [latest]"
+end
+puts "Welcome to mini-IMDB
+
+puts "Enter a movie name: "
+input = gets.chomp
