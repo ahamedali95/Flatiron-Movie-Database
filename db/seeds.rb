@@ -14,7 +14,7 @@ array = ["Batman", "Superman", "Spider-man", "The Godfather", "Up",
   "Spider-Man 3", "The Lost World: Jurassic Park", "Jurassic Park III"]
   #binding.pry
 
-array.each do |film|j
+array.each do |film|
   r = RestClient.get("http://www.omdbapi.com/?t=#{film}&apikey=485b50f7")
   movie = JSON.parse(r)
   title = movie["Title"]
