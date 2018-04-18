@@ -1,14 +1,30 @@
 require_relative "../config/environment.rb"
 gem "tty-font"
+
 def welcome
   font = TTY::Font.new(:starwars)
-  puts font.write("WELCOME")
-  puts "*"*45
-  puts "|                                     |"
-  puts "|       Welcometo Flatiron Movie      |".upcase
-  puts "|           Database Search           |".upcase
-  puts "|                                     |"
-  puts "="*45
+  pastel = Pastel.new
+
+  spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
+
+  spinner.auto_spin # Automatic animation with default interval
+
+  sleep(2) # Perform task
+
+spinner.stop('Done!') # Stop animation
+  puts pastel.red(font.write("  WELCOME"))
+  puts pastel.red(font.write("                       TO"))
+  puts pastel.red(font.write("FLATIRON"))
+  puts pastel.red(font.write("           MOVIE"))
+
+  puts pastel.red(font.write("DATABASE"))
+  puts pastel.red(font.write("                       CLI"))
+  # puts "*"*45
+  # puts "|                                     |"
+  # puts "|       Welcometo Flatiron Movie      |".upcase
+  # puts "|           Database Search           |".upcase
+  # puts "|                                     |"
+  # puts "="*45
 end
 
 def print_list_commands_with_options
