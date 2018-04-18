@@ -5,9 +5,9 @@ require "pry"
 require "rest-client"
 require "json"
 
-#"Superman", "Spider-man", "The Godfather", "Up",
-  # "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man","Nightmare Before Christmas", "Alice in wonderland","Jurassic Park", "Jurassic World", "Batman Returns", "Spider-Man 2", "Ultimate Spider-Man","Iron-man","Iron-man 2", "Iron-man 3", "Spider-Man 3", "The Lost World: Jurassic Park", "Jurassic Park III"
-array = ["Batman"]
+
+array = ["Batman", "Superman", "Spider-man", "The Godfather", "Up", "The Lion King", "Prisoners", "The Dark Knight Rises", "Avatar", "Iron Man","Nightmare Before Christmas", "Alice in wonderland","Jurassic Park", "Jurassic World", "Batman Returns", "Spider-Man 2", "Ultimate Spider-Man","Iron-man","Iron-man 2", "Iron-man 3",
+  "Spider-Man 3", "The Lost World: Jurassic Park", "Jurassic Park III"]
 
 array.each do |film|j
   r = RestClient.get("http://www.omdbapi.com/?t=#{film}&apikey=485b50f7")
@@ -31,9 +31,7 @@ array.each do |film|j
   actors = movie["Actors"].split(",")
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
-      binding.pry
       cast = Cast.find_or_create_by(actor_id: actor.id, movie_id: movie.id)
-      binding.pry
     end
   #dm_join = DirectedMovie.find_or_create_by(director_id: director.id, movie_id: movie.id)
 
