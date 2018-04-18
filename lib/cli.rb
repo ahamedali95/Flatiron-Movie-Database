@@ -5,7 +5,7 @@ def welcome
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-  
+
   puts pastel.red(font.write("  WELCOME"))
   puts pastel.red(font.write("                       TO"))
   puts pastel.red(font.write("FLATIRON"))
@@ -98,8 +98,13 @@ def sub_options
 end
 
 def goodbye
-  puts "Thank you for stopping bye!!"
-  puts "GoodBye"
+  puts "\n"
+  puts "\n"
+  puts "*"*45
+  puts "|       Thank you for stopping by!!      |".upcase
+  puts "|                GoodBye                   |".upcase
+  puts "*"*45
+
   abort
 end
 
@@ -224,23 +229,35 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
     end
   end
 end
+
+def print_not_valid_option
+  puts "="*45
+  puts "\n"
+  puts "\n"
+  puts "="*45
+  puts "Not a valid option.".upcase
+  puts "Please try again: \n"
+  puts "="*45
+  sleep(2)
+end
+
 #RRR
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
-  abort if input == "e"
+  goodbye if input == "e"
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
-  binding.pry
   case movies
     when []
-      puts "That is not a valid option"
-      puts "Please try again: \n"
+      print_not_valid_option
       print_studio_list
+      puts "Please type a name from the list: "
       input = gets.chomp
       studio_movies(input)
+
     when nil
-      puts "That is not a valid option"
-      puts "Please try again: \n"
+      print_not_valid_option
       print_studio_list
+      puts "Please type a name from the list: "
       input = gets.chomp
       studio_movies(input)
     else
