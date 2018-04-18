@@ -3,12 +3,12 @@ require "pry"
 #
 
 def welcome
-  puts "*"*40
-  puts "|                              |"
-  puts "|   Welcometo Flatiron Movie   |".upcase
-  puts "|      Database Search         |".upcase
-  puts "|                              |"
-  puts "="*40
+  puts "*"*45
+  puts "|                                     |"
+  puts "|       Welcometo Flatiron Movie      |".upcase
+  puts "|           Database Search           |".upcase
+  puts "|                                     |"
+  puts "="*45
 end
 
 def print_list_commands
