@@ -106,12 +106,9 @@ def print_one_list(input)
       input = sub_options
       print_one_list(input)
     end
-<<<<<<< HEAD
 
-=======
   end
->>>>>>> b5edd6db86cccba01e7744c7331f3eff0d4438f2
-end
+
 
 
 def options
