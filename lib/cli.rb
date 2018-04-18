@@ -169,6 +169,7 @@ def options
       get_movie_ratings_from_db
       puts "Please enter a rating: \n"
       input = gets.chomp
+      #gets movie info by db from MB
       get_movie_info_from_db_by_parental_rating(input)
     when "8"
       # need to get a list of range #TODO
