@@ -18,12 +18,11 @@ def print_list_commands
   puts "  # 5. Top 3 rated Movies within our current db."
   puts "  # 6. Top 3 Box Office Movies within current db."
   puts "  # 7. Find Movies by MPAA Rating. Ex. PG-13"
-  puts "  # 8. Search Movie by Decade"
-  puts "  # 9. Search Movie by Studio."
+  puts "  # 8. Search Movie by by decade"
+  puts "  # 9. Search Movie by by Studio."
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
 end
-#input  == Pg-13, PG-13, PG 13, pG 13,  .upcase or .downcase, PG13 == PG13 or pg13 == pg13
 
 def get_movie_info_from_db
   Movie.select(:id, :title).each do |movie_obj|
@@ -60,13 +59,19 @@ def get_top_three_movies_from_db
   puts movies[2]
 end
 
-def get_movie_ratings_from_db
-  Movie.find_by(:rated)
+def get_all_parental_ratings_from_db
+  Movie.select(:rated).map do |movie_obj|
+    movie_obj.rated
+  end.uniq.each do |parental_rating|
+    puts parental_rating
+  end
 end
 
-def get_movie_info_from_db_by_parental_rating(rating)
-  Movie.where(rated: rating).select(:title, :id).each do |movie_obj|
-    puts "#{movie_obj.id}. #{movie_obj.title}"
+def get_movie_info_from_db_by_parental_rating(p_rating)
+  formatted_rating = p_rating.downcase.split("-").join("")
+
+  Movie.select(:title, :id, :rated).each do |movie_obj|
+    puts "#{movie_obj.id}. #{movie_obj.title}" if formatted_rating == movie_obj.rated.downcase.split("-").join("")
   end
 end
 #
@@ -174,7 +179,6 @@ def options
       spacing
       print_studio_list
       # need to get a list of range #TODO
-
       puts "Please enter a studio name: \n"
       input = gets.chomp.downcase
       goodbye if input == "e"
