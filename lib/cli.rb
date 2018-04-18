@@ -27,23 +27,20 @@ def print_list_commands
 end
 # # 1a. See Available movies within database
 def get_movie_info_from_db
-  Movie.select(:title, :id).each do |movie_obj|
+  Movie.select(:id, :title).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
 end
 # # 1b. See available actors.
 def get_actor_info_from_db
   Actor.select(:name, :id).each do |actor_obj|
-    binding.pry
-    if actor_obj.name != "N/A"
-      puts "#{actor_obj.id}. #{actor_obj.name}"
-    end
+    puts "#{actor_obj.id}. #{actor_obj.name}" if actor_obj.name != "N/A"
   end
 end
 # # 1c. See available directors.
 def get_director_info_from_db
   Director.select(:name, :id).each do |director_obj|
-     puts "#{director_obj.id}. #{director_obj.name}"
+     puts "#{director_obj.id}. #{director_obj.name}" if director_obj.name != "N/A"
   end
 end
 
@@ -75,8 +72,8 @@ end
 # # 6. Top 3 Box Office movies within db
 # # Movie.order(box_office: :desc).limit(3)
 # # 7. Find movies by MPAA Rating = PG-13
-def get_movie_info_from_db_by_parental_rating
-  Movie.where(rated: "PG-13").select(:title).each do |movie_obj|
+def get_movie_info_from_db_by_parental_rating(rating)
+  Movie.where(rated: "PG-13").select(:title, :id).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
 end
