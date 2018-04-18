@@ -33,11 +33,11 @@ array.each do |film|
   movie = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
   directed_movie = DirectedMovie.find_or_create_by(director_id: director.id, movie_id: movie.id)
 
-  # actors = movie["Actors"].split(",")
-  #   actors.each do |name|
-  #     actor = Actor.find_or_create_by(name: name)
-  #     cast = Cast.find_or_create_by(actor_id: actor.id, movie_id: movie.id)
-  #   end
+  actors = movie["Actors"].split(",")
+    actors.each do |name|
+      actor = Actor.find_or_create_by(name: name)
+      cast = Cast.find_or_create_by(actor_id: actor.id, movie_id: movie.id)
+    end
   #dm_join = DirectedMovie.find_or_create_by(director_id: director.id, movie_id: movie.id)
 
 end

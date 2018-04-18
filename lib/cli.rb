@@ -27,20 +27,23 @@ def print_list_commands
 end
 # # 1a. See Available movies within database
 def get_movie_info_from_db
-  Movie.select(:title).map do |movie_obj|
-    puts movie_obj.title
+  Movie.select(:title, :id).each do |movie_obj|
+    puts "#{movie_obj.id}. #{movie_obj.title}"
   end
 end
 # # 1b. See available actors.
 def get_actor_info_from_db
-  Actor.select(:name).map do |actor_obj|
-    puts actor_obj.name
+  Actor.select(:name, :id).each do |actor_obj|
+    binding.pry
+    if actor_obj.name != "N/A"
+      puts "#{actor_obj.id}. #{actor_obj.name}"
+    end
   end
 end
 # # 1c. See available directors.
 def get_director_info_from_db
-  Director.select(:name).map do |director_obj|
-     puts director_obj.name
+  Director.select(:name, :id).each do |director_obj|
+     puts "#{director_obj.id}. #{director_obj.name}"
   end
 end
 
@@ -64,17 +67,19 @@ def get_top_three_movies_from_db
   movies = Movie.order("order DESC")
   puts movies[0]
   puts movies[1]
-  puts movies[2]]
+  puts movies[2]
 end
-# movies = Movie.order("order DESC")
-# [movies[0], movies[1], movies[2]]
-#
+
 # # Movie.order(rating: :desc).limit(3)
 #
 # # 6. Top 3 Box Office movies within db
 # # Movie.order(box_office: :desc).limit(3)
 # # 7. Find movies by MPAA Rating = PG-13
-# Movie.where(rated: "PG-13")
+def get_movie_info_from_db_by_parental_rating
+  Movie.where(rated: "PG-13").select(:title).each do |movie_obj|
+    puts "#{movie_obj.id}. #{movie_obj.title}"
+  end
+end
 # # 8. Look up movie by decade
 #
 # # 9. Look up movies by studio.
@@ -121,14 +126,30 @@ def goodbye
   abort
 end
 
+def spacing
+  puts "="*40
+  puts "\n"
+  puts "="*40
+  sleep(2)
+end
+
 def print_one_list(input)
   case input
-  when "a"
+    when "a"
       get_movie_info_from_db
+      spacing
+      print_list_commands
+      options
     when "b"
       get_actor_info_from_db
+      spacing
+      print_list_commands
+      options
     when "c"
-      # add method created by M/A
+      get_director_info_from_db
+      spacing
+      print_list_commands
+      options
     when "e"
       goodbye
     when "r"
@@ -209,6 +230,7 @@ end
 def run
   welcome
   print_list_commands
+  options
 
 end
 #
