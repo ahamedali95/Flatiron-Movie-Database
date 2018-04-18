@@ -3,7 +3,7 @@ require "pry"
 #
 def print_list_commands
   "*************************************************"
-  "  # 1. See list of Movies, Directors, Actors."
+  "  # 1. See list of Movies, Directors, or Actors."
   "  # 2. Search Online for Available movies."
   "  # 3. Search Movies by Actor."
   "  # 4. Search Movies by Director."
@@ -72,7 +72,7 @@ def sub_options
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
   input = gets.chomp
-
+  print_one_list(input)
 end
 
 
@@ -121,7 +121,7 @@ def options
     when "3"
       puts "Please enter an actors name: \n"
       input = gets.chomp
-      #A method 
+      #A method
     when "4"
       puts "Please enter a directors name: \n"
       input = gets.chomp
