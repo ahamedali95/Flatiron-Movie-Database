@@ -14,7 +14,7 @@ def list_commands
   "  - Find latest release [latest]"
 end
 
-def run
+def welcome
   puts "Welcome to mini-IMDB"
   puts list_commands
   input = gets.chomp().downcase
@@ -35,12 +35,18 @@ def run
       #INNER JOIN directed_movies
       #on directors.id = directed_movies.director_id
       #WHERE movies.id = directors.movie_id
-    # elsif input ==
+
     else
       puts "Please follow the commands"
     end
   end
 end
 
-binding.pry
-"hello"
+#DO NOT CALL RUN in here.
+def run
+  # list_commands
+  # welcome
+end
+#
+#
+# puts "Thanks for using mini-IMDB"
