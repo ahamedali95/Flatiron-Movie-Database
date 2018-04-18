@@ -29,18 +29,6 @@ array.each do |film|
   box_office = movie["BoxOffice"]
   production = movie["Production"]
 
-<<<<<<< HEAD
-  director = Director.find_or_create_by(name: director)
-  movie = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
-  directed_movie = DirectedMovie.find_or_create_by(director_id: director.id, movie_id: movie.id)
-
-  actors = movie["Actors"].split(",")
-    actors.each do |name|
-      actor = Actor.find_or_create_by(name: name)
-      cast = Cast.find_or_create_by(actor_id: actor.id, movie_id: movie.id)
-    end
-  #dm_join = DirectedMovie.find_or_create_by(director_id: director.id, movie_id: movie.id)
-=======
   d = Director.find_or_create_by(name: director)
   m = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
   directed_movie_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
@@ -49,7 +37,6 @@ array.each do |film|
       actor = Actor.find_or_create_by(name: name)
       cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
     end
->>>>>>> 7a0fb72ff704fc13ad9ed3c6007f81b8d86f077d
 
 end
 
