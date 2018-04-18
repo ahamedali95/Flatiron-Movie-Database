@@ -214,8 +214,19 @@ end
 #
 # puts "Thanks for using mini-IMDB"
 
-def find_top_3_gross #6 
-  Movie.order(box_office: :desc).limit(3)
+def find_top_3_gross #6
+  response = Movie.all
+
+  unsorted = response.map {|movie| binding.pry
+    movie.box_office = movie.box_office.gsub(/[^0-9a-z ]/i, '').to_i}
+
+  sorted = unsorted.sort_by do |movie|
+    movie[:box_office]
+  end
+  result = sorted.reverse
+  puts result[0]
+  puts result[1]
+  puts result[2]
 end
 
 def find_by_decade(input)
@@ -223,11 +234,12 @@ def find_by_decade(input)
     puts "Please enter the decade in 4-digit format, i.e. '1980s.''"
     input = gets.chomp
   else
-  int_input = input.to_i
+  range_min = input.gsub(/[^0-9 ]/i, '').to_i
+  range_max = range_min + 9
   binding.pry
-  Movie.scoped(:conditions => { :released => int_input...int_input+9 })
+  result = Movie.scoped(:conditions => { :year => range_min...range_max })
   end
-
+  puts result
 end
 
 
