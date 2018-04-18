@@ -26,8 +26,8 @@ array.each do |film|
   plot = movie["Plot"]
   #rating is a floating value but it goes in to the database as a real value
   rating = movie["imdbRating"].to_f
-  box_office = movie["BoxOffice"]
-  production = movie["Production"]
+  !movie["BoxOffice"] == nil? ? box_office = movie["BoxOffice"] : box_office == "N/A"
+  !movie["Production"] == nil? ? production = movie["Production"].gsub(/[A-Za-z]/, "") : production = "n/a"
 
   d = Director.find_or_create_by(name: director)
   m = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
