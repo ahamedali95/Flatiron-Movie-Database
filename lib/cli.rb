@@ -24,10 +24,13 @@ end
 # Movie.joins(:casts, :actors).WHERE("casts.actor_id = actors.id AND actors.name = ' Chris Sarando'")
 # joins("INNER JOIN actors ON casts.actor_id = actors.id WHERE actors.name = ' Chris Sarando'")
 # 4. Search movies by director
+# Movie.where(director: <input>)
 # 5. Top 3 rated movies within our current database.
 # 6. Top 3 Box Office movies within db
+# Movie.order(box_office: :desc).limit(3)
 # 7. Find movies by MPAA Rating = PG-13
 # 8. Look up movie by decade
+# This one's gonna take some doing, but I have a few ideas. -MDT
 # 9. Look up movies by studio.
 
 
