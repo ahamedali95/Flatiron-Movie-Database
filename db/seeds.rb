@@ -32,6 +32,7 @@ array.each do |film|
   d = Director.find_or_create_by(name: director)
   m = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
   directed_movie_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
+
   actors = movie["Actors"].split(", ")
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
@@ -39,9 +40,3 @@ array.each do |film|
     end
 
 end
-
-
-# binding.pry
-
-#hash["posts"][0]["thread"]["site"]
-puts "hello"
