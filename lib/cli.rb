@@ -38,9 +38,12 @@ def get_actor_info_from_db
   end
 end
 # # 1c. See available directors.
-# Director.select(:name).map do |director_obj|
-#   director_obj.name
-# end
+def get_director_info_from_db
+  Director.select(:name).map do |director_obj|
+     puts director_obj.name
+  end
+end
+
 # # 2. Search available movies online
 # # 3. Search movies by actor
 #
@@ -57,6 +60,12 @@ end
 # # 4. Search movies by director
 # # Movie.where(director: <input>) <-- needs error handling, will do tomorrow -MDT
 # # 5. Top 3 rated movies within our current database.
+def get_top_three_movies_from_db
+  movies = Movie.order("order DESC")
+  puts movies[0]
+  puts movies[1]
+  puts movies[2]]
+end
 # movies = Movie.order("order DESC")
 # [movies[0], movies[1], movies[2]]
 #
