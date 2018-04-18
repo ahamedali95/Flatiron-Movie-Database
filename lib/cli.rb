@@ -45,7 +45,10 @@ end
 # 5. Top 3 rated movies within our current database.
 movies = Movie.order("order DESC")
 [movies[0], movies[1], movies[2]]
+<<<<<<< HEAD
 # Movie.order(rating: :desc).limit(3)
+=======
+>>>>>>> 38b1a4512478b86fc5dfe5ca5ea7b950183bd6e8
 # 6. Top 3 Box Office movies within db
 # Movie.order(box_office: :desc).limit(3)
 # 7. Find movies by MPAA Rating = PG-13
@@ -55,11 +58,11 @@ Movie.where(rated: "PG-13")
 # 9. Look up movies by studio.
 #SELECT * FROM movies WHERE production = "green studios"
 Movie.where(production: "whatever")
-# Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
-# 8. Look up movie by decade
-# This one's gonna take some doing, but I have a few ideas. -MDT
-# 9. Look up movies by studio.
-# Movie.where(production: <input>) <-- See #4. -MDT
+
+
+
+
+
 
 
 
