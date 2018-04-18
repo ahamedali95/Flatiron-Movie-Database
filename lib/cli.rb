@@ -20,11 +20,9 @@ end
 # 3. Search movies by actor
 
 # SELECT movies.name FROM movies
-# INNER JOIN casts
-# ON movies.id = movie_id
-# INNER JOIN actors
-# ON casts.actor_id = actors.id
-# WHERE actors.name = "hugh jackman"
+
+# Movie.joins(:casts, :actors).WHERE("casts.actor_id = actors.id AND actors.name = ' Chris Sarando'")
+# joins("INNER JOIN actors ON casts.actor_id = actors.id WHERE actors.name = ' Chris Sarando'")
 # 4. Search movies by director
 # 5. Top 3 rated movies within our current database.
 # 6. Top 3 Box Office movies within db
