@@ -12,18 +12,18 @@ def welcome
 end
 
 def print_list_commands
-  "*************************************************"
-  "  # 1. See list of Movies, Directors, Actors."
-  "  # 2. Search Online for Available movies."
-  "  # 3. Search Movies by Actor."
-  "  # 4. Search Movies by Director."
-  "  # 5. Top 3 rated Movies within our current db."
-  "  # 6. Top 3 Box Office Movies within current db."
-  "  # 7. Find Movies by MPAA Rating. Ex. PG-13"
-  "  # 8. Search Movie by by decade"
-  "  # 9. Search Movie by by Studio."
-  "*************************************************"
-  "Please enter an option from 1-9, 'e' to Exit. "
+  puts "*************************************************"
+  puts "  # 1. See list of Movies, Directors, Actors."
+  puts "  # 2. Search Online for Available movies."
+  puts "  # 3. Search Movies by Actor."
+  puts "  # 4. Search Movies by Director."
+  puts "  # 5. Top 3 rated Movies within our current db."
+  puts "  # 6. Top 3 Box Office Movies within current db."
+  puts "  # 7. Find Movies by MPAA Rating. Ex. PG-13"
+  puts "  # 8. Search Movie by by decade"
+  puts "  # 9. Search Movie by by Studio."
+  puts "*************************************************"
+  puts "Please enter an option from 1-9, 'e' to Exit. "
 end
 # # 1a. See Available movies within database
 def get_movie_info_from_db
