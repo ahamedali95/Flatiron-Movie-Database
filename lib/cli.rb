@@ -5,13 +5,7 @@ def welcome
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-  spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
-
-  spinner.auto_spin # Automatic animation with default interval
-
-  sleep(2) # Perform task
-
-spinner.stop('Done!') # Stop animation
+  
   puts pastel.red(font.write("  WELCOME"))
   puts pastel.red(font.write("                       TO"))
   puts pastel.red(font.write("FLATIRON"))
