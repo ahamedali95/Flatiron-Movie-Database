@@ -173,17 +173,21 @@ def options
       get_movie_ratings_from_db
       puts "Please enter a rating: \n"
       input = gets.chomp
+      #gets movie info by db from MB
       get_movie_info_from_db_by_parental_rating(input)
     when "8"
       # need to get a list of range #TODO
       puts "Please enter a decade: \n"
       input = gets.chomp
       # method(input)
-    when "9"
+    when "9" # 9. Search Movie by by Studio."
+      spacing
+      print_studio_list
       # need to get a list of range #TODO
       puts "Please enter a studio name: \n"
-      input = gets.chomp
-      # method(input)
+      input = gets.chomp.downcase
+      goodbye if input == "e"
+      studio_movies(input)
 
     else
       print_list_commands
@@ -199,10 +203,28 @@ def options
   # 9. Look up movies by studio.
 end
 
+def print_studio_list
+  arr =[]
+  m = Movie.all.select do |mov|
+    if !mov.production.nil?
+      prod = mov.production.gsub(/[^A-Za-z 0-9]/, "")
+      arr <<  prod
+    end
+  end
+  arr = arr.uniq
+  a = arr.each_with_index do |prod, index|
+    puts "#{index+1}. #{prod}"
+  end
+  # binding.pry
+end
 
-#
-#
-# puts "Thanks for using mini-IMDB"
+def studio_movies(input)
+  # input = input.split.map(&:capitalize).join(' ')
+  movies = Movie.all.where("production LIKE ?", "%#{input}%")
+  movies.each_with_index do |movie, index|
+    puts " #{index+1}. #{movie.title}"
+  end
+end
 
 def find_top_3_gross #6
   Movie.order(box_office: :desc).limit(3)
