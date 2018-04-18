@@ -45,10 +45,7 @@ end
 # 5. Top 3 rated movies within our current database.
 movies = Movie.order("order DESC")
 [movies[0], movies[1], movies[2]]
-<<<<<<< HEAD
-# Movie.order(rating: :desc).limit(3)
-=======
->>>>>>> 38b1a4512478b86fc5dfe5ca5ea7b950183bd6e8
+
 # 6. Top 3 Box Office movies within db
 # Movie.order(box_office: :desc).limit(3)
 # 7. Find movies by MPAA Rating = PG-13
