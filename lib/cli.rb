@@ -216,18 +216,20 @@ end
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
-  binding.pry
   case movies
-  when movies == [] || movies == nil
+    when movies == [] || movies == nil
       puts "That is not a valid option"
       puts "Please try again: \n"
       print_studio_list
       input = gets.chomp
       studio_movies(input)
     else
+      puts "*"*45
+      puts "\n"
       movies.each_with_index do |movie, index|
         puts " #{index+1}. #{movie.title}"
       end
+      sleep(2)
       print_list_commands_with_options
   end
 
