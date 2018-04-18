@@ -43,29 +43,23 @@ end
 # 4. Search movies by director
 # Movie.where(director: <input>) <-- needs error handling, will do tomorrow -MDT
 # 5. Top 3 rated movies within our current database.
-<<<<<<< HEAD
 movies = Movie.order("order DESC")
 [movies[0], movies[1], movies[2]]
-=======
 # Movie.order(rating: :desc).limit(3)
->>>>>>> f69adfccfc4fedffca831c546e2d25c61a41542a
 # 6. Top 3 Box Office movies within db
 # Movie.order(box_office: :desc).limit(3)
 # 7. Find movies by MPAA Rating = PG-13
-<<<<<<< HEAD
 Movie.where(rated: "PG-13")
 # 8. Look up movie by decade
 
 # 9. Look up movies by studio.
 #SELECT * FROM movies WHERE production = "green studios"
 Movie.where(production: "whatever")
-=======
 # Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
 # 8. Look up movie by decade
 # This one's gonna take some doing, but I have a few ideas. -MDT
 # 9. Look up movies by studio.
 # Movie.where(production: <input>) <-- See #4. -MDT
->>>>>>> f69adfccfc4fedffca831c546e2d25c61a41542a
 
 
 
@@ -127,6 +121,7 @@ def options
     when "3"
       puts "Please enter an actors name: \n"
       input = gets.chomp
+      #A method 
     when "4"
       puts "Please enter a directors name: \n"
       input = gets.chomp
