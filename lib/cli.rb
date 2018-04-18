@@ -3,7 +3,7 @@ require "pry"
 #
 def print_list_commands
   "*************************************************"
-  "  # 1. See list of Movies, Directors, Actors."
+  "  # 1. See list of Movies, Directors, or Actors."
   "  # 2. Search Online for Available movies."
   "  # 3. Search Movies by Actor."
   "  # 4. Search Movies by Director."
@@ -46,9 +46,15 @@ end
 movies = Movie.order("order DESC")
 [movies[0], movies[1], movies[2]]
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # Movie.order(rating: :desc).limit(3)
 >>>>>>> 4dd84153803677d73652f8da0346409fe40329c8
+=======
+# Movie.order(rating: :desc).limit(3)
+=======
+>>>>>>> 38b1a4512478b86fc5dfe5ca5ea7b950183bd6e8
+>>>>>>> e92452204e21f97c8a7fb2b9e785f7331b924380
 # 6. Top 3 Box Office movies within db
 # Movie.order(box_office: :desc).limit(3)
 # 7. Find movies by MPAA Rating = PG-13
@@ -59,14 +65,14 @@ Movie.where(rated: "PG-13")
 #SELECT * FROM movies WHERE production = "green studios"
 Movie.where(production: "whatever")
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e92452204e21f97c8a7fb2b9e785f7331b924380
 
 
 
-def welcome
-  puts "Welcome to mini-IMDB"
-  puts list_commands
-  input = gets.chomp().downcase
 
+<<<<<<< HEAD
   while input != "e"
     if input == "l"
       puts list_commands
@@ -90,6 +96,9 @@ def welcome
 # 9. Look up movies by studio.
 # Movie.where(production: <input>) <-- See #4. -MDT
 >>>>>>> 4dd84153803677d73652f8da0346409fe40329c8
+=======
+
+>>>>>>> e92452204e21f97c8a7fb2b9e785f7331b924380
 
 
 
@@ -101,8 +110,8 @@ def sub_options
   puts "**************************************"
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
-  input = gets.chomp
-
+  input = gets.chomp.downcase
+  print_one_list(input)
 end
 
 
@@ -115,11 +124,11 @@ end
 
 def print_one_list(input)
   case input
-    when "1"
+    when "a"
       # add method created by M/A
-    when "2"
+    when "b"
       # add method created by M/A
-    when "3"
+    when "c"
       # add method created by M/A
     when "e"
       goodbye
@@ -151,7 +160,7 @@ def options
     when "3"
       puts "Please enter an actors name: \n"
       input = gets.chomp
-      #A method 
+      #A method
     when "4"
       puts "Please enter a directors name: \n"
       input = gets.chomp
