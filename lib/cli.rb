@@ -227,24 +227,26 @@ def studio_movies(input)
 end
 
 def find_top_3_gross #6
-  response = Movie.all
+  response = Movie.where.not(box_office: [nil, ""])
 
-  unsorted = response.map {|movie| binding.pry
-    movie.box_office = movie.box_office.gsub(/[^0-9a-z ]/i, '').to_i}
-
+  unsorted = response.each {|movie|
+    movie.box_office = movie.box_office.gsub(/[^0-9 ]/i, '').to_i
+  }
+binding.pry
   sorted = unsorted.sort_by do |movie|
-    movie[:box_office]
-  end
+    movie[:box_office].to_i
+    end
   result = sorted.reverse
-  puts result[0]
-  puts result[1]
-  puts result[2]
+  binding.pry
+  puts result[0].title
+  puts result[1].title
+  puts result[2].title
 end
 
 def find_by_decade(input)
   if input.length < 4
     puts "Please enter the decade in 4-digit format, i.e. '1980s.''"
-    input = gets.chomp
+    binding.pry
   else
   range_min = input.gsub(/[^0-9 ]/i, '').to_i
   range_max = range_min + 9
