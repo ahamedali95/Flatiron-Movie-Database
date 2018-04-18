@@ -53,7 +53,7 @@ end
 # WHERE actors.name = "hugh jackman"
 
 def get_top_three_movies_from_db
-  movies = Movie.order("order DESC")
+  movies = Movie.order("rating DESC")
   puts movies[0]
   puts movies[1]
   puts movies[2]
@@ -69,9 +69,13 @@ end
 
 def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase.split("-").join("")
+  index = 0
 
   Movie.select(:title, :id, :rated).each do |movie_obj|
-    puts "#{movie_obj.id}. #{movie_obj.title}" if formatted_rating == movie_obj.rated.downcase.split("-").join("")
+    if formatted_rating == movie_obj.rated.downcase.split("-").join("")
+      index += 1
+      puts "#{index}. #{movie_obj.title}"
+    end
   end
 end
 #
