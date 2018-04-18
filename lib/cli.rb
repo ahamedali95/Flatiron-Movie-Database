@@ -13,7 +13,7 @@ end
 
 def print_list_commands
   "*************************************************"
-  "  # 1. See list of Movies, Directors, or Actors."
+  "  # 1. See list of Movies, Directors, Actors."
   "  # 2. Search Online for Available movies."
   "  # 3. Search Movies by Actor."
   "  # 4. Search Movies by Director."
@@ -26,6 +26,7 @@ def print_list_commands
   "Please enter an option from 1-9, 'e' to Exit. "
 end
 # 1a. See Available movies within database
+
 Movie.select(:title).map do |movie_obj|
   movie_obj.title
 end
@@ -89,7 +90,6 @@ Movie.where(production: "whatever")
 # 8. Look up movie by decade
 # This one's gonna take some doing, but I have a few ideas. -MDT
 # 9. Look up movies by studio.
-# Movie.where(production: <input>) <-- See #4.
 
 
 def sub_options
@@ -104,6 +104,7 @@ def sub_options
 end
 
 
+end
 
 def goodbye
   puts "Thank you for stopping bye!!"
@@ -113,11 +114,11 @@ end
 
 def print_one_list(input)
   case input
-    when "a"
+    when "A"
       # add method created by M/A
-    when "b"
+    when "B"
       # add method created by M/A
-    when "c"
+    when "C"
       # add method created by M/A
     when "e"
       goodbye
@@ -145,6 +146,7 @@ def options
     when "2"
       puts "Please enter a movie title: \n"
       input = gets.chomp
+
       # method(input)
     when "3"
       puts "Please enter an actors name: \n"
