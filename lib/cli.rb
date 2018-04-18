@@ -3,7 +3,7 @@ require "pry"
 #
 def print_list_commands
   "*************************************************"
-  "  # 1. See list of Movies, Directors, or Actors."
+  "  # 1. See list of Movies, Directors, Actors."
   "  # 2. Search Online for Available movies."
   "  # 3. Search Movies by Actor."
   "  # 4. Search Movies by Director."
@@ -16,6 +16,7 @@ def print_list_commands
   "Please enter an option from 1-9, 'e' to Exit. "
 end
 # 1a. See Available movies within database
+
 Movie.select(:title).map do |movie_obj|
   movie_obj.title
 end
@@ -43,62 +44,23 @@ end
 # 4. Search movies by director
 # Movie.where(director: <input>) <-- needs error handling, will do tomorrow -MDT
 # 5. Top 3 rated movies within our current database.
-movies = Movie.order("order DESC")
-[movies[0], movies[1], movies[2]]
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-# Movie.order(rating: :desc).limit(3)
->>>>>>> 4dd84153803677d73652f8da0346409fe40329c8
-=======
-# Movie.order(rating: :desc).limit(3)
-=======
->>>>>>> 38b1a4512478b86fc5dfe5ca5ea7b950183bd6e8
->>>>>>> e92452204e21f97c8a7fb2b9e785f7331b924380
-# 6. Top 3 Box Office movies within db
-# Movie.order(box_office: :desc).limit(3)
-# 7. Find movies by MPAA Rating = PG-13
-Movie.where(rated: "PG-13")
-# 8. Look up movie by decade
-
-# 9. Look up movies by studio.
-#SELECT * FROM movies WHERE production = "green studios"
-Movie.where(production: "whatever")
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e92452204e21f97c8a7fb2b9e785f7331b924380
-
-
-
-
-<<<<<<< HEAD
-  while input != "e"
-    if input == "l"
-      puts list_commands
-    elsif input == input.start_with("t")
-      #query the movie info in the database. If not exists, go query it from
-      #the API and seed to the database and then return the information
-    elsif input == input.start_with("a")
-      #SELECT * FROM actors
-      #INNER JOIN casts
-      #on actors.id = casts.actor_id
-      #WHERE movies.id = actors.movie_id
-    elsif input == input.start_with("d")
-      #SELECT * FROM directors
-      #INNER JOIN directed_movies
-      #on directors.id = directed_movies.director_id
-      #WHERE movies.id = directors.movie_id
-=======
+# movies = Movie.order("order DESC")
+# [movies[0], movies[1], movies[2]]
+# # Movie.order(rating: :desc).limit(3)
+# # 6. Top 3 Box Office movies within db
+# # Movie.order(box_office: :desc).limit(3)
+# # 7. Find movies by MPAA Rating = PG-13
+# Movie.where(rated: "PG-13")
+# # 8. Look up movie by decade
+#
+# # 9. Look up movies by studio.
+# #SELECT * FROM movies WHERE production = "green studios"
+# Movie.where(production: "whatever")
 # Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
 # 8. Look up movie by decade
 # This one's gonna take some doing, but I have a few ideas. -MDT
 # 9. Look up movies by studio.
 # Movie.where(production: <input>) <-- See #4. -MDT
->>>>>>> 4dd84153803677d73652f8da0346409fe40329c8
-=======
-
->>>>>>> e92452204e21f97c8a7fb2b9e785f7331b924380
 
 
 
@@ -110,11 +72,9 @@ def sub_options
   puts "**************************************"
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
-  input = gets.chomp.downcase
-  print_one_list(input)
+  input = gets.chomp
+
 end
-
-
 
 def goodbye
   puts "Thank you for stopping bye!!"
@@ -124,11 +84,11 @@ end
 
 def print_one_list(input)
   case input
-    when "a"
+    when "A"
       # add method created by M/A
-    when "b"
+    when "B"
       # add method created by M/A
-    when "c"
+    when "C"
       # add method created by M/A
     when "e"
       goodbye
@@ -156,6 +116,7 @@ def options
     when "2"
       puts "Please enter a movie title: \n"
       input = gets.chomp
+
       # method(input)
     when "3"
       puts "Please enter an actors name: \n"
