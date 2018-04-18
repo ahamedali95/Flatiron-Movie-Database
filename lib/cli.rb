@@ -244,6 +244,6 @@ def find_by_decade(input)
   else
   int_input = input.to_i
   binding.pry
-  Movie.scoped(:conditions => { :released => int_input..._input+9})
+  Movie.scoped(:conditions => { :released => int_input...int_input+9 })
   end
 end
