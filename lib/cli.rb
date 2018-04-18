@@ -56,6 +56,8 @@ end
 movies = Movie.order("order DESC")
 [movies[0], movies[1], movies[2]]
 
+# Movie.order(rating: :desc).limit(3)
+
 # 6. Top 3 Box Office movies within db
 # Movie.order(box_office: :desc).limit(3)
 # 7. Find movies by MPAA Rating = PG-13
@@ -67,10 +69,27 @@ Movie.where(rated: "PG-13")
 Movie.where(production: "whatever")
 
 
-
-
-
-
+  while input != "e"
+    if input == "l"
+      puts list_commands
+    elsif input == input.start_with("t")
+      #query the movie info in the database. If not exists, go query it from
+      #the API and seed to the database and then return the information
+    elsif input == input.start_with("a")
+      #SELECT * FROM actors
+      #INNER JOIN casts
+      #on actors.id = casts.actor_id
+      #WHERE movies.id = actors.movie_id
+    elsif input == input.start_with("d")
+      #SELECT * FROM directors
+      #INNER JOIN directed_movies
+      #on directors.id = directed_movies.director_id
+      #WHERE movies.id = directors.movie_id
+# Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
+# 8. Look up movie by decade
+# This one's gonna take some doing, but I have a few ideas. -MDT
+# 9. Look up movies by studio.
+# Movie.where(production: <input>) <-- See #4.
 
 
 def sub_options
