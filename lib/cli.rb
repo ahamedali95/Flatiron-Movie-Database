@@ -167,9 +167,9 @@ def options
       #gets movie info by db from MB
       get_movie_info_from_db_by_parental_rating(input)
     when "8"
+      input = print_decade_example
       # need to get a list of range #TODO
-      puts "Please enter a decade: \n"
-      input = gets.chomp
+      decade_by_year(input)
       # method(input)
     when "9" # 9. Search Movie by by Studio."
       spacing
@@ -216,8 +216,15 @@ end
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
+  binding.pry
   case movies
-    when movies == [] || movies == nil
+    when []
+      puts "That is not a valid option"
+      puts "Please try again: \n"
+      print_studio_list
+      input = gets.chomp
+      studio_movies(input)
+    when nil
       puts "That is not a valid option"
       puts "Please try again: \n"
       print_studio_list
@@ -225,6 +232,7 @@ def studio_movies(input)
       studio_movies(input)
     else
       puts "*"*45
+      puts "test"
       puts "\n"
       movies.each_with_index do |movie, index|
         puts " #{index+1}. #{movie.title}"
@@ -253,7 +261,21 @@ binding.pry
   puts result[2].title
 end
 
-def find_by_decade(input)
+def print_decade_example
+  puts "\n"
+  puts "\n"
+  puts "*"*45
+  puts "Please enter a decade: \n".upcase
+
+  puts "Enter a year and we will return \n"
+  puts "any movies found within that decade.\n"
+  puts "Example: 1995"
+  puts "Will return all movies from 1990-1999.\n"
+  input = gets.chomp
+end
+
+def decade_by_year(input) # 8. Search Movie by by decade"
+  binding.pry
   if input.length < 4
     puts "Please enter the decade in 4-digit format, i.e. '1980s.''"
     binding.pry
