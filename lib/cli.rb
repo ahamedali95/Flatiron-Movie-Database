@@ -185,6 +185,7 @@ def options
       print_list_commands_with_options
 
     else
+      puts "Not a valid option. Please try again: \n".upcase
       print_list_commands_with_options
   end
 end
@@ -211,14 +212,13 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
     end
   end
 end
-
-
+#RRR
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   binding.pry
   case movies
-  when movies == [] || when movies == nil
+  when movies == [] || movies == nil
       puts "That is not a valid option"
       puts "Please try again: \n"
       print_studio_list
