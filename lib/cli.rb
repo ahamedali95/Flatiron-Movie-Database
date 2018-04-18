@@ -18,8 +18,8 @@ def print_list_commands
   puts "  # 5. Top 3 rated Movies within our current db."
   puts "  # 6. Top 3 Box Office Movies within current db."
   puts "  # 7. Find Movies by MPAA Rating. Ex. PG-13"
-  puts "  # 8. Search Movie by Decade"
-  puts "  # 9. Search Movie by Studio."
+  puts "  # 8. Search Movie by by decade"
+  puts "  # 9. Search Movie by by Studio."
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
 end
@@ -60,13 +60,19 @@ def get_top_three_movies_from_db
   puts movies[2]
 end
 
-def get_movie_ratings_from_db
-  Movie.find_by(:rated)
+def get_all_parental_ratings_from_db
+  Movie.select(:rated).map do |movie_obj|
+    movie_obj.rated
+  end.uniq.each do |parental_rating|
+    puts parental_rating
+  end
 end
 
-def get_movie_info_from_db_by_parental_rating(rating)
-  Movie.where(rated: rating).select(:title, :id).each do |movie_obj|
-    puts "#{movie_obj.id}. #{movie_obj.title}"
+def get_movie_info_from_db_by_parental_rating(p_rating)
+  formatted_rating = p_rating.downcase.split("-").join("")
+
+  Movie.select(:title, :id, :rated).each do |movie_obj|
+    puts "#{movie_obj.id}. #{movie_obj.title}" if formatted_rating == movie_obj.rated.downcase.split("-").join("")
   end
 end
 #
@@ -170,10 +176,8 @@ def options
       puts "Please enter a decade: \n"
       input = gets.chomp
       # method(input)
-    when "9" # 9. Search Movie by by Studio."
-      print_studio_list
+    when "9"
       # need to get a list of range #TODO
-
       puts "Please enter a studio name: \n"
       input = gets.chomp
       # method(input)
@@ -192,22 +196,10 @@ def options
   # 9. Look up movies by studio.
 end
 
-def print_studio_list
-  arr =[]
-  m = Movie.all.select do |mov|
-    if !mov.production.nil?
-      prod = mov.production.gsub(/[^A-Za-z 0-9]/, "")
-      arr <<  prod
-    end
-  end
-  arr = arr.uniq
-  a = arr.each_with_index do |prod, index|
-    puts "#{index+1}. #{prod}"
-  end
-  # binding.pry
-end
 
-
+#
+#
+# puts "Thanks for using mini-IMDB"
 
 def find_top_3_gross #6
   Movie.order(box_office: :desc).limit(3)
