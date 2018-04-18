@@ -82,22 +82,7 @@ end
 # Movie.where(production: "whatever")
 #
 #
-#   while input != "e"
-#     if input == "l"
-#       puts list_commands
-#     elsif input == input.start_with("t")
-#       #query the movie info in the database. If not exists, go query it from
-#       #the API and seed to the database and then return the information
-#     elsif input == input.start_with("a")
-#       #SELECT * FROM actors
-#       #INNER JOIN casts
-#       #on actors.id = casts.actor_id
-#       #WHERE movies.id = actors.movie_id
-#     elsif input == input.start_with("d")
-#       #SELECT * FROM directors
-#       #INNER JOIN directed_movies
-#       #on directors.id = directed_movies.director_id
-#       #WHERE movies.id = directors.movie_id
+#
 # # Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
 # # 8. Look up movie by decade
 # # This one's gonna take some doing, but I have a few ideas. -MDT
@@ -188,6 +173,8 @@ def options
       print_list_commands
       options
     when "6"
+      find_top_3_gross
+      spacing
       # method created by M||A
       sleep(3)
       print_list_commands
@@ -222,18 +209,12 @@ def options
   # 9. Look up movies by studio.
 end
 
-#DO NOT CALL RUN in here.
-def run
-  welcome
-  print_list_commands
-  options
 
-end
 #
 #
 # puts "Thanks for using mini-IMDB"
 
-def find_top_3_gross
+def find_top_3_gross #6 
   Movie.order(box_office: :desc).limit(3)
 end
 
@@ -246,4 +227,17 @@ def find_by_decade(input)
   binding.pry
   Movie.scoped(:conditions => { :released => int_input...int_input+9 })
   end
+
 end
+
+
+
+
+
+  #DO NOT CALL RUN in here.
+  def run
+    welcome
+    print_list_commands
+    options
+
+  end
