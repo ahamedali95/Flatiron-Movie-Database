@@ -115,7 +115,6 @@ def sub_options
   input = gets.chomp.downcase
 end
 
-
 def goodbye
   puts "Thank you for stopping bye!!"
   puts "GoodBye"
@@ -124,11 +123,11 @@ end
 
 def print_one_list(input)
   case input
-    when "A"
+  when "a"
       get_movie_info_from_db
-    when "B"
+    when "b"
       get_actor_info_from_db
-    when "C"
+    when "c"
       # add method created by M/A
     when "e"
       goodbye
