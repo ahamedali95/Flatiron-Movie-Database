@@ -171,12 +171,14 @@ def options
       input = gets.chomp
       # method(input)
     when "9" # 9. Search Movie by by Studio."
+      spacing
       print_studio_list
       # need to get a list of range #TODO
 
       puts "Please enter a studio name: \n"
-      input = gets.chomp
-      # method(input)
+      input = gets.chomp.downcase
+      goodbye if input == "e"
+      studio_movies(input)
 
     else
       print_list_commands
@@ -207,7 +209,13 @@ def print_studio_list
   # binding.pry
 end
 
-
+def studio_movies(input)
+  # input = input.split.map(&:capitalize).join(' ')
+  movies = Movie.all.where("production LIKE ?", "%#{input}%")
+  movies.each_with_index do |movie, index|
+    puts " #{index+1}. #{movie.title}"
+  end
+end
 
 def find_top_3_gross #6
   Movie.order(box_office: :desc).limit(3)
