@@ -32,12 +32,12 @@ ActiveRecord::Schema.define(version: 5) do
 
   create_table "movies", force: :cascade do |t|
     t.string "title"
-    t.string "year"
+    t.integer "year"
     t.string "rated"
     t.string "released"
     t.string "genre"
     t.text "plot"
-    t.string "rating"
+    t.float "rating"
     t.string "box_office"
     t.string "production"
   end
