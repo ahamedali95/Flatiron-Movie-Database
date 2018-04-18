@@ -71,7 +71,7 @@ def sub_options
   puts "**************************************"
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
-  input = gets.chomp
+  input = gets.chomp.downcase
   print_one_list(input)
 end
 
@@ -85,11 +85,11 @@ end
 
 def print_one_list(input)
   case input
-    when "1"
+    when "a"
       # add method created by M/A
-    when "2"
+    when "b"
       # add method created by M/A
-    when "3"
+    when "c"
       # add method created by M/A
     when "e"
       goodbye
