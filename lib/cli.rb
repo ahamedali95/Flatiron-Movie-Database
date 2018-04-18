@@ -18,10 +18,13 @@ end
 # 1c. See available directors.
 # 2. Search available movies online
 # 3. Search movies by actor
-# SELECT * FROM movies
-# WHERE movies.id = casts.movie_id AND
-# casts.movie_id = actors_id
 
+# SELECT movies.name FROM movies
+# INNER JOIN casts
+# ON movies.id = movie_id
+# INNER JOIN actors
+# ON casts.actor_id = actors.id
+# WHERE actors.name = "hugh jackman"
 # 4. Search movies by director
 # 5. Top 3 rated movies within our current database.
 # 6. Top 3 Box Office movies within db
