@@ -16,9 +16,10 @@ def print_list_commands
   "Please enter an option from 1-9, 'e' to Exit. "
 end
 # 1a. See Available movies within database
-
-Movie.select(:title).map do |movie_obj|
-  movie_obj.title
+def get_movie_infor_from_db
+  Movie.select(:title).map do |movie_obj|
+    movie_obj.title
+  end
 end
 # 1b. See available actors.
 Actor.select(:name).map do |actor_obj|
