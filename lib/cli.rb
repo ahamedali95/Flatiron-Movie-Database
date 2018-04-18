@@ -73,7 +73,7 @@ end
 # # Movie.order(box_office: :desc).limit(3)
 # # 7. Find movies by MPAA Rating = PG-13
 def get_movie_info_from_db_by_parental_rating(rating)
-  Movie.where(rated: "PG-13").select(:title, :id).each do |movie_obj|
+  Movie.where(rated: rating).select(:title, :id).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
 end
@@ -169,7 +169,7 @@ def options
       input = gets.chomp
       # method(input)
     when "5"
-      # method created by M||A
+      get_top_three_movies_from_db
       sleep(3)
       print_list_commands
       options
@@ -184,7 +184,7 @@ def options
       # need to get a list of the ratings #TODO
       puts "Please enter a rating: \n"
       input = gets.chomp
-      # method(input)
+      get_movie_info_from_db_by_parental_rating
     when "8"
       # need to get a list of range #TODO
       puts "Please enter a decade: \n"
