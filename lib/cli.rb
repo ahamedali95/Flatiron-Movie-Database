@@ -54,9 +54,9 @@ end
 
 def get_top_three_movies_from_db
   movies = Movie.order("rating DESC")
-  puts movies[0]
-  puts movies[1]
-  puts movies[2]
+  puts "1. #{movies[0].title} - #{movies[0].rating}"
+  puts "2. #{movies[1].title} - #{movies[1].rating}"
+  puts "3. #{movies[2].title} - #{movies[2].rating}"
 end
 
 def get_all_parental_ratings_from_db
@@ -71,7 +71,8 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase.split("-").join("")
   index = 0
 
-  Movie.select(:title, :id, :rated).each do |movie_obj|
+  m = Movie.select(:title, :id, :rated).each do |movie_obj|
+    binding.pry
     if formatted_rating == movie_obj.rated.downcase.split("-").join("")
       index += 1
       puts "#{index}. #{movie_obj.title}"
@@ -86,8 +87,8 @@ end
 def sub_options
   puts "What would you like to do?"
   puts "A. See List of Movies."
-  puts "B. See List of Directors."
-  puts "C. See List of Actors.\n"
+  puts "B. See List of Actors."
+  puts "C. See List of Directors.\n"
   puts "**************************************"
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
@@ -170,11 +171,12 @@ def options
       print_list_commands
       options
     when "7"
-      get_movie_ratings_from_db
+      get_all_parental_ratings_from_db
       puts "Please enter a rating: \n"
       input = gets.chomp
-      #gets movie info by db from MB
       get_movie_info_from_db_by_parental_rating(input)
+      print_list_commands
+      options
     when "8"
       # need to get a list of range #TODO
       puts "Please enter a decade: \n"
@@ -193,14 +195,6 @@ def options
       print_list_commands
       options
   end
-  # 2. Search available movies online
-  # 3. Search movies by actor
-  # 4. Search movies by director
-  # 5. Top 3 rated movies within our current database.
-  # 6. Top 3 Box Office movies within db
-  # 7. Find movies by MPAA Rating = PG-13
-  # 8. Look up movie by decade
-  # 9. Look up movies by studio.
 end
 
 def print_studio_list
@@ -215,7 +209,6 @@ def print_studio_list
   a = arr.each_with_index do |prod, index|
     puts "#{index+1}. #{prod}"
   end
-  # binding.pry
 end
 
 def studio_movies(input)
