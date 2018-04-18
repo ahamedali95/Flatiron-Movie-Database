@@ -116,9 +116,9 @@ end
 def print_one_list(input)
   case input
     when "A"
-      # add method created by M/A
+      get_movie_info_from_db
     when "B"
-      # add method created by M/A
+      get_actor_info_from_db
     when "C"
       # add method created by M/A
     when "e"
@@ -148,7 +148,7 @@ def options
       puts "Please enter a movie title: \n"
       input = gets.chomp
 
-      get_movie_info_from_db
+      #get_movie_info_from_db
     when "3"
       puts "Please enter an actors name: \n"
       input = gets.chomp
