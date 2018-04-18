@@ -1,7 +1,5 @@
 require_relative "../config/environment.rb"
 
-#
-
 def welcome
   puts "*"*45
   puts "|                                     |"
@@ -25,69 +23,65 @@ def print_list_commands
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
 end
-# # 1a. See Available movies within database
+
 def get_movie_info_from_db
-  Movie.select(:title).map do |movie_obj|
-    puts movie_obj.title
-  end
-end
-# # 1b. See available actors.
-def get_actor_info_from_db
-  Actor.select(:name).map do |actor_obj|
-    puts actor_obj.name
-  end
-end
-# # 1c. See available directors.
-def get_director_info_from_db
-  Director.select(:name).map do |director_obj|
-     puts director_obj.name
+  Movie.select(:id, :title).each do |movie_obj|
+    puts "#{movie_obj.id}. #{movie_obj.title}"
   end
 end
 
-# # 2. Search available movies online
-# # 3. Search movies by actor
+def get_actor_info_from_db
+  Actor.select(:name, :id).each do |actor_obj|
+    puts "#{actor_obj.id}. #{actor_obj.name}" if actor_obj.name != "N/A"
+  end
+end
+
+def get_director_info_from_db
+  Director.select(:name, :id).each do |director_obj|
+     puts "#{director_obj.id}. #{director_obj.name}" if director_obj.name != "N/A"
+  end
+end
+# 3. Search movies by actor
 #
 # #Movie.joins(casts: :actor).where("actors.name = ?, 'Marlon Brando'")
 #
-# # SELECT movies.name FROM movies
-# # INNER JOIN casts
-# # ON movies.id = movie_id
-# # INNER JOIN actors
-# # ON casts.actor_id = actors.id
-# # WHERE actors.name = "hugh jackman"
-#
-#
-# # 4. Search movies by director
-# # Movie.where(director: <input>) <-- needs error handling, will do tomorrow -MDT
-# # 5. Top 3 rated movies within our current database.
+# SELECT movies.name FROM movies
+# INNER JOIN casts
+# ON movies.id = movie_id
+# INNER JOIN actors
+# ON casts.actor_id = actors.id
+# WHERE actors.name = "hugh jackman"
+
 def get_top_three_movies_from_db
-  movies = Movie.order("order DESC")
+  movies = Movie.order("rating DESC")
   puts movies[0]
   puts movies[1]
   puts movies[2]
 end
-# movies = Movie.order("order DESC")
-# [movies[0], movies[1], movies[2]]
-#
-# # Movie.order(rating: :desc).limit(3)
-#
-# # 6. Top 3 Box Office movies within db
-# # Movie.order(box_office: :desc).limit(3)
-# # 7. Find movies by MPAA Rating = PG-13
-# Movie.where(rated: "PG-13")
-# # 8. Look up movie by decade
-#
-# # 9. Look up movies by studio.
-# #SELECT * FROM movies WHERE production = "green studios"
-# Movie.where(production: "whatever")
-#
-#
-#
-# # Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
-# # 8. Look up movie by decade
-# # This one's gonna take some doing, but I have a few ideas. -MDT
-# # 9. Look up movies by studio.
 
+def get_all_parental_ratings_from_db
+  Movie.select(:rated).map do |movie_obj|
+    movie_obj.rated
+  end.uniq.each do |parental_rating|
+    puts parental_rating
+  end
+end
+
+def get_movie_info_from_db_by_parental_rating(p_rating)
+  formatted_rating = p_rating.downcase.split("-").join("")
+  index = 0
+
+  Movie.select(:title, :id, :rated).each do |movie_obj|
+    if formatted_rating == movie_obj.rated.downcase.split("-").join("")
+      index += 1
+      puts "#{index}. #{movie_obj.title}"
+    end
+  end
+end
+#
+# Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
+# 8. Look up movie by decade
+# This one's gonna take some doing, but I have a few ideas. -MDT
 
 def sub_options
   puts "What would you like to do?"
@@ -99,7 +93,6 @@ def sub_options
   puts "Press (r) to RETURN to Main Menu"
   input = gets.chomp.downcase
 end
-
 
 def goodbye
   puts "Thank you for stopping bye!!"
@@ -142,9 +135,6 @@ def print_one_list(input)
   end
 end
 
-
-
-
 def options
   input = gets.chomp
 
@@ -168,7 +158,7 @@ def options
       input = gets.chomp
       # method(input)
     when "5"
-      # method created by M||A
+      get_top_three_movies_from_db
       sleep(3)
       print_list_commands
       options
@@ -180,20 +170,24 @@ def options
       print_list_commands
       options
     when "7"
-      # need to get a list of the ratings #TODO
+      get_movie_ratings_from_db
       puts "Please enter a rating: \n"
       input = gets.chomp
-      # method(input)
+      #gets movie info by db from MB
+      get_movie_info_from_db_by_parental_rating(input)
     when "8"
       # need to get a list of range #TODO
       puts "Please enter a decade: \n"
       input = gets.chomp
       # method(input)
-    when "9"
+    when "9" # 9. Search Movie by by Studio."
+      spacing
+      print_studio_list
       # need to get a list of range #TODO
       puts "Please enter a studio name: \n"
-      input = gets.chomp
-      # method(input)
+      input = gets.chomp.downcase
+      goodbye if input == "e"
+      studio_movies(input)
 
     else
       print_list_commands
@@ -209,10 +203,28 @@ def options
   # 9. Look up movies by studio.
 end
 
+def print_studio_list
+  arr =[]
+  m = Movie.all.select do |mov|
+    if !mov.production.nil?
+      prod = mov.production.gsub(/[^A-Za-z 0-9]/, "")
+      arr <<  prod
+    end
+  end
+  arr = arr.uniq
+  a = arr.each_with_index do |prod, index|
+    puts "#{index+1}. #{prod}"
+  end
+  # binding.pry
+end
 
-#
-#
-# puts "Thanks for using mini-IMDB"
+def studio_movies(input)
+  # input = input.split.map(&:capitalize).join(' ')
+  movies = Movie.all.where("production LIKE ?", "%#{input}%")
+  movies.each_with_index do |movie, index|
+    puts " #{index+1}. #{movie.title}"
+  end
+end
 
 def find_top_3_gross #6
   response = Movie.all
