@@ -1,6 +1,16 @@
 require_relative "../config/environment.rb"
 require "pry"
 #
+
+def welcome
+  puts "*"*40
+  puts "|                              |"
+  puts "|   Welcometo Flatiron Movie   |".upcase
+  puts "|      Database Search         |".upcase
+  puts "|                              |"
+  puts "="*40
+end
+
 def print_list_commands
   "*************************************************"
   "  # 1. See list of Movies, Directors, Actors."
@@ -45,24 +55,42 @@ end
 # 4. Search movies by director
 # Movie.where(director: <input>) <-- needs error handling, will do tomorrow -MDT
 # 5. Top 3 rated movies within our current database.
-# movies = Movie.order("order DESC")
-# [movies[0], movies[1], movies[2]]
-# # Movie.order(rating: :desc).limit(3)
-# # 6. Top 3 Box Office movies within db
-# # Movie.order(box_office: :desc).limit(3)
-# # 7. Find movies by MPAA Rating = PG-13
-# Movie.where(rated: "PG-13")
-# # 8. Look up movie by decade
-#
-# # 9. Look up movies by studio.
-# #SELECT * FROM movies WHERE production = "green studios"
-# Movie.where(production: "whatever")
+movies = Movie.order("order DESC")
+[movies[0], movies[1], movies[2]]
+
+# Movie.order(rating: :desc).limit(3)
+
+# 6. Top 3 Box Office movies within db
+# Movie.order(box_office: :desc).limit(3)
+# 7. Find movies by MPAA Rating = PG-13
+Movie.where(rated: "PG-13")
+# 8. Look up movie by decade
+
+# 9. Look up movies by studio.
+#SELECT * FROM movies WHERE production = "green studios"
+Movie.where(production: "whatever")
+
+
+  while input != "e"
+    if input == "l"
+      puts list_commands
+    elsif input == input.start_with("t")
+      #query the movie info in the database. If not exists, go query it from
+      #the API and seed to the database and then return the information
+    elsif input == input.start_with("a")
+      #SELECT * FROM actors
+      #INNER JOIN casts
+      #on actors.id = casts.actor_id
+      #WHERE movies.id = actors.movie_id
+    elsif input == input.start_with("d")
+      #SELECT * FROM directors
+      #INNER JOIN directed_movies
+      #on directors.id = directed_movies.director_id
+      #WHERE movies.id = directors.movie_id
 # Movie.where(rated: <input>) <-- needs error handling in case some smartass puts in XXX - MDT
 # 8. Look up movie by decade
 # This one's gonna take some doing, but I have a few ideas. -MDT
 # 9. Look up movies by studio.
-# Movie.where(production: <input>) <-- See #4. -MDT
-
 
 
 def sub_options
@@ -73,7 +101,9 @@ def sub_options
   puts "**************************************"
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
-  input = gets.chomp
+  input = gets.chomp.downcase
+end
+
 
 end
 
@@ -169,8 +199,9 @@ end
 
 #DO NOT CALL RUN in here.
 def run
-  # print_list_commands
-  # welcome
+  welcome
+  print_list_commands
+
 end
 #
 #
