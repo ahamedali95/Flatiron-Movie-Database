@@ -13,6 +13,23 @@ def list_commands
   "  - Find highest grosser [highest]"
   "  - Find latest release [latest]"
 end
+# 1a. See Available movies within database
+# 1b. See available actors.
+# 1c. See available directors.
+# 2. Search available movies online
+# 3. Search movies by actor
+# SELECT * FROM movies
+# WHERE movies.id = casts.movie_id AND
+# casts.movie_id = actors_id
+
+# 4. Search movies by director
+# 5. Top 3 rated movies within our current database.
+# 6. Top 3 Box Office movies within db
+# 7. Find movies by MPAA Rating = PG-13
+# 8. Look up movie by decade
+# 9. Look up movies by studio.
+
+
 
 def welcome
   puts "Welcome to mini-IMDB"
