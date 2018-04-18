@@ -1,6 +1,8 @@
 require_relative "../config/environment.rb"
-
+gem "tty-font"
 def welcome
+  font = TTY::Font.new(:starwars)
+  puts font.write("WELCOME")
   puts "*"*45
   puts "|                                     |"
   puts "|       Welcometo Flatiron Movie      |".upcase
@@ -255,7 +257,7 @@ def find_top_3_gross #6
     end
   result = sorted.reverse
   # make sure to add the amount they grossed box office.
-  #make it look nice. 
+  #make it look nice.
   puts result[0].title
   puts result[1].title
   puts result[2].title
