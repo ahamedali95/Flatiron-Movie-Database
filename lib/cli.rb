@@ -20,8 +20,8 @@ def print_list_commands
   puts "  # 5. Top 3 rated Movies within our current db."
   puts "  # 6. Top 3 Box Office Movies within current db."
   puts "  # 7. Find Movies by MPAA Rating. Ex. PG-13"
-  puts "  # 8. Search Movie by by decade"
-  puts "  # 9. Search Movie by by Studio."
+  puts "  # 8. Search Movie by Decade"
+  puts "  # 9. Search Movie by Studio."
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
 end
@@ -193,8 +193,10 @@ def options
       puts "Please enter a decade: \n"
       input = gets.chomp
       # method(input)
-    when "9"
+    when "9" # 9. Search Movie by by Studio."
+      print_studio_list
       # need to get a list of range #TODO
+
       puts "Please enter a studio name: \n"
       input = gets.chomp
       # method(input)
@@ -213,10 +215,22 @@ def options
   # 9. Look up movies by studio.
 end
 
+def print_studio_list
+  arr =[]
+  m = Movie.all.select do |mov|
+    if !mov.production.nil?
+      prod = mov.production.gsub(/[^A-Za-z 0-9]/, "")
+      arr <<  prod
+    end
+  end
+  arr = arr.uniq
+  a = arr.each_with_index do |prod, index|
+    puts "#{index+1}. #{prod}"
+  end
+  # binding.pry
+end
 
-#
-#
-# puts "Thanks for using mini-IMDB"
+
 
 def find_top_3_gross #6
   Movie.order(box_office: :desc).limit(3)
