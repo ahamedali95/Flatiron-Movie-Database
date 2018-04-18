@@ -229,6 +229,7 @@ def studio_movies(input)
       movies.each_with_index do |movie, index|
         puts " #{index+1}. #{movie.title}"
       end
+      puts "\n"
       sleep(2)
       print_list_commands_with_options
   end
