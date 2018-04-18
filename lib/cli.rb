@@ -215,6 +215,7 @@ end
 #RRR
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
+  abort if input == "e"
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   binding.pry
   case movies
@@ -232,7 +233,6 @@ def studio_movies(input)
       studio_movies(input)
     else
       puts "*"*45
-      puts "test"
       puts "\n"
       movies.each_with_index do |movie, index|
         puts " #{index+1}. #{movie.title}"
@@ -250,12 +250,12 @@ def find_top_3_gross #6
   unsorted = response.each {|movie|
     movie.box_office = movie.box_office.gsub(/[^0-9 ]/i, '').to_i
   }
-binding.pry
   sorted = unsorted.sort_by do |movie|
     movie[:box_office].to_i
     end
   result = sorted.reverse
-  binding.pry
+  # make sure to add the amount they grossed box office.
+  #make it look nice. 
   puts result[0].title
   puts result[1].title
   puts result[2].title
@@ -265,7 +265,7 @@ def print_decade_example
   puts "\n"
   puts "\n"
   puts "*"*45
-  puts "Please enter a decade: \n".upcase
+  puts "Please enter a year: \n".upcase
 
   puts "Enter a year and we will return \n"
   puts "any movies found within that decade.\n"
@@ -274,18 +274,46 @@ def print_decade_example
   input = gets.chomp
 end
 
+def not_valid_length
+  puts "Not a valid length.\n"
+  input = print_decade_example
+  decade_by_year(input)
+end
+
 def decade_by_year(input) # 8. Search Movie by by decade"
-  binding.pry
-  if input.length < 4
-    puts "Please enter the decade in 4-digit format, i.e. '1980s.''"
-    binding.pry
-  else
-  range_min = input.gsub(/[^0-9 ]/i, '').to_i
-  range_max = range_min + 9
-  binding.pry
-  result = Movie.scoped(:conditions => { :year => range_min...range_max })
+  goodbye if input == "e"
+  not_valid_length if input.length < 4
+  array1 = input.split("")
+  array2 = input.split("")
+  array1[3] = "0"
+  array2[3] = "9"
+  zero = array1.join.to_i
+  nine = array2.join.to_i
+  results = Movie.all.where(
+  "year > ? AND year < ?", zero, nine)
+  case results
+    when []
+      puts "No Movies found for that year."
+      puts "Please try again: \n"
+      input = print_decade_example
+      decade_by_year(input)
+    when nil
+      puts "No Movies found for that year."
+      puts "Please try again: \n"
+      input = print_decade_example
+      decade_by_year(input)
+    else
+      puts "*"*45
+      puts "\n"
+      puts " YEAR RELEASED  ||    TITLE             |"
+      results.each_with_index do |movie, index|
+        puts " #{index+1}. #{movie.year} #{movie.title}"
+    end
+    puts "\n"
+    sleep(2)
   end
-  puts result
+
+
 end
 
 
