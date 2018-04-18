@@ -23,7 +23,6 @@ def print_list_commands
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
 end
-#input  == Pg-13, PG-13, PG 13, pG 13,  .upcase or .downcase, PG13 == PG13 or pg13 == pg13
 
 def get_movie_info_from_db
   Movie.select(:id, :title).each do |movie_obj|
