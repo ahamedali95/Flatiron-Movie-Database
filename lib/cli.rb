@@ -32,9 +32,11 @@ def get_movie_info_from_db
   end
 end
 # # 1b. See available actors.
-# Actor.select(:name).map do |actor_obj|
-#   actor_obj.name
-# end
+def get_actor_info_from_db
+  Actor.select(:name).map do |actor_obj|
+    puts actor_obj.name
+  end
+end
 # # 1c. See available directors.
 # Director.select(:name).map do |director_obj|
 #   director_obj.name
