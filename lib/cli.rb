@@ -1,6 +1,16 @@
 require_relative "../config/environment.rb"
 require "pry"
 #
+
+def welcome
+  puts "*"*40
+  puts "|                              |"
+  puts "|   Welcometo Flatiron Movie   |".upcase
+  puts "|      Database Search         |".upcase
+  puts "|                              |"
+  puts "="*40
+end
+
 def print_list_commands
   "*************************************************"
   "  # 1. See list of Movies, Directors, or Actors."
@@ -72,7 +82,6 @@ def sub_options
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
   input = gets.chomp.downcase
-  print_one_list(input)
 end
 
 
@@ -168,8 +177,9 @@ end
 
 #DO NOT CALL RUN in here.
 def run
-  # print_list_commands
-  # welcome
+  welcome
+  print_list_commands
+
 end
 #
 #
