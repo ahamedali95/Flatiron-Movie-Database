@@ -64,7 +64,7 @@ def get_top_three_movies_from_db
   movies = Movie.order("order DESC")
   puts movies[0]
   puts movies[1]
-  puts movies[2]]
+  puts movies[2]
 end
 # movies = Movie.order("order DESC")
 # [movies[0], movies[1], movies[2]]
@@ -122,14 +122,30 @@ def goodbye
   abort
 end
 
+def spacing
+  puts "="*40
+  puts "\n"
+  puts "="*40
+  sleep(2)
+end
+
 def print_one_list(input)
   case input
-    when "A"
+    when "a"
       get_movie_info_from_db
-    when "B"
+      spacing
+      print_list_commands
+      options
+    when "b"
       get_actor_info_from_db
-    when "C"
-      # add method created by M/A
+      spacing
+      print_list_commands
+      options
+    when "c"
+      get_director_info_from_db
+      spacing
+      print_list_commands
+      options
     when "e"
       goodbye
     when "r"
@@ -210,6 +226,7 @@ end
 def run
   welcome
   print_list_commands
+  options
 
 end
 #
