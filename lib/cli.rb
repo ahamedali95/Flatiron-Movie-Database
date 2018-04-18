@@ -214,17 +214,21 @@ def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   binding.pry
-  if movies == [] || movies || nil
-    puts "That is not a valid option"
-    puts "Please try again: \n"
+  case movies
+  when movies == [] || movies == nil
+      puts "That is not a valid option"
+      puts "Please try again: \n"
+      print_studio_list
+      input = gets.chomp
+      studio_movies(input)
 
-  else
-    movies.each_with_index do |movie, index|
-      puts " #{index+1}. #{movie.title}"
-    end
-    print_list_commands_with_options
-
+    else
+      movies.each_with_index do |movie, index|
+        puts " #{index+1}. #{movie.title}"
+      end
+      print_list_commands_with_options
   end
+
 end
 
 def find_top_3_gross #6
@@ -251,6 +255,6 @@ end
   def run
     welcome
     print_list_commands_with_options
-    
+
 
   end
