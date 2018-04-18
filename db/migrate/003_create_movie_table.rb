@@ -4,7 +4,7 @@ class CreateMovieTable < ActiveRecord::Migration[5.1]
       t.string :title
       t.string :year
       t.string :rated
-      t.string :released
+      t.integer :released
       t.string :genre
       t.text   :plot
       t.string :rating
