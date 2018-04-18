@@ -205,7 +205,7 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase.split("-").join("")
   index = 0
 
-  Movie.select(:title, :id, :rated).each do |movie_obj|
+  Movie.where(rated: formatted_rating).each do |movie_obj|
     if formatted_rating == movie_obj.rated.downcase.split("-").join("")
       index += 1
       puts "#{index}. #{movie_obj.title}"
