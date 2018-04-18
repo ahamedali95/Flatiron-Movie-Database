@@ -9,7 +9,7 @@ def welcome
   puts "="*45
 end
 
-def print_list_commands_with_options
+def print_list_commands
   puts "*************************************************"
   puts "  # 1. See list of Movies, Directors, Actors."
   puts "  # 2. Search Online for Available movies."
@@ -22,7 +22,6 @@ def print_list_commands_with_options
   puts "  # 9. Search Movie by by Studio."
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
-  options
 end
 
 def get_movie_info_from_db
@@ -72,11 +71,12 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase.split("-").join("")
   index = 0
 
-  m = Movie.select(:title, :id, :rated).each do |movie_obj|
+  m = Movie.where(rated: formatted_rating).each do |movie_obj|
     binding.pry
     if formatted_rating == movie_obj.rated.downcase.split("-").join("")
       index += 1
       puts "#{index}. #{movie_obj.title}"
+      puts "#{movie_obj.description}"
     end
   end
 end
@@ -114,23 +114,23 @@ def print_one_list(input)
     when "a"
       get_movie_info_from_db
       spacing
-      print_list_commands_with_options
-
+      print_list_commands
+      options
     when "b"
       get_actor_info_from_db
       spacing
-      print_list_commands_with_options
-
+      print_list_commands
+      options
     when "c"
       get_director_info_from_db
       spacing
-      print_list_commands_with_options
-
+      print_list_commands
+      options
     when "e"
       goodbye
     when "r"
-      print_list_commands_with_options
-
+      print_list_commands
+      options
     else
       input = sub_options
       print_one_list(input)
@@ -162,15 +162,15 @@ def options
     when "5"
       get_top_three_movies_from_db
       sleep(3)
-      print_list_commands_with_options
-
+      print_list_commands
+      options
     when "6"
       find_top_3_gross
       spacing
       # method created by M||A
       sleep(3)
-      print_list_commands_with_options
-
+      print_list_commands
+      options
     when "7"
       get_all_parental_ratings_from_db
       puts "Please enter a rating: \n"
@@ -187,30 +187,27 @@ def options
       spacing
       print_studio_list
       # need to get a list of range #TODO
-      puts "="*45
-      puts "Please enter a studio name: \n".upcase
+      puts "Please enter a studio name: \n"
       input = gets.chomp.downcase
       goodbye if input == "e"
       studio_movies(input)
-      puts "$"*40
-      puts "="*40
-      print_list_commands_with_options
 
     else
-      print_list_commands_with_options
-
+      print_list_commands
+      options
   end
-<<<<<<< HEAD
-=======
-
->>>>>>> 6a933254c416b9f17f779c6d7d842f292b394735
 end
 
 def print_studio_list
-  m = Movie.all.map do |movie|
-    movie.production
-  end.uniq
-  a = m.each_with_index do |prod, index|
+  arr =[]
+  m = Movie.all.select do |mov|
+    if !mov.production.nil?
+      prod = mov.production.gsub(/[^A-Za-z 0-9]/, "")
+      arr <<  prod
+    end
+  end
+  arr = arr.uniq
+  a = arr.each_with_index do |prod, index|
     puts "#{index+1}. #{prod}"
   end
 end
@@ -218,22 +215,9 @@ end
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
-  binding.pry
-  case movies
-  when movies == [] || movies == nil
-      puts "That is not a valid option"
-      puts "Please try again: \n"
-      print_studio_list
-      input = gets.chomp
-      studio_movies(input)
-
-    else
-      movies.each_with_index do |movie, index|
-        puts " #{index+1}. #{movie.title}"
-      end
-      print_list_commands_with_options
+  movies.each_with_index do |movie, index|
+    puts " #{index+1}. #{movie.title}"
   end
-
 end
 
 def find_top_3_gross #6
@@ -259,7 +243,7 @@ end
   #DO NOT CALL RUN in here.
   def run
     welcome
-    print_list_commands_with_options
-
+    print_list_commands
+    options
 
   end
