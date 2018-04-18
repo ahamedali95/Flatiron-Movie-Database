@@ -25,7 +25,7 @@ array.each do |film|j
   production = movie["Production"]
 
   director = Director.find_or_create_by(name: director)
-  movie = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released.to_i, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
+  movie = Movie.find_or_create_by(title: title, year: year.to_i, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
   directed_movie = DirectedMovie.find_or_create_by(director_id: director.id, movie_id: movie.id)
 
   actors = movie["Actors"].split(",")
