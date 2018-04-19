@@ -209,34 +209,57 @@ def get_movie_info_online(input) #number2
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
   check = Movie.find_by(title: res["Title"])
-binding.pry
-
-
-  title = res["Title"]
-  year = res["Year"].to_i
-  rated = res["Rated"]
-  released = res["Released"]
-  genre = res["Genre"]
-  director = res["Director"].split(",").first
-  plot = res["Plot"]
-  rating = res["imdbRating"].to_f
-  !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
-  !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
-
-  new_film = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
-
-  new_dir = Director.find_or_create_by(name: director)
-  directed_movie_join = DirectedMovie.find_or_create_by(director_id: new_dir, movie_id: new_film)
-
-  actors = movie["Actors"].split(", ")
-    actors.each do |name|
-      actor = Actor.find_or_create_by(name: name)
-      cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
-
-    end
-
-  new_film.print_info
+  # t = check.title.downcase
+  case check
+    when nil
+      title = res["Title"]
+      year = res["Year"].to_i
+      rated = res["Rated"]
+      released = res["Released"]
+      genre = res["Genre"]
+      director = res["Director"].split(",").first
+      plot = res["Plot"]
+      rating = res["imdbRating"].to_f
+      !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
+      !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
+      binding.pry
+      d = Director.find_or_create_by(name: director)
+      m = Movie.find_or_create_by(
+        title: title,
+        year: year,
+        rated: rated,
+        released: released,
+        genre: genre,
+        plot: plot,
+        rating: rating,
+        box_office: box_office,
+        production: production)
+      directed_movie_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
+      actors = res["Actors"].split(", ")
+        actors.each do |name|
+          actor = Actor.find_or_create_by(name: name)
+          cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
+        end
+        spacing
+        puts "Successfully added #{title}"
+        puts "Director:  #{director}"
+        puts "Plot: #{plot}"
+        spacing
+        sleep(2)
+        options
+      else
+        puts "Movie Already Exists"
+        puts "#{check.title}"
+      end
 end
+
+
+
+
+
+
+
+
 
 
 def get_movies_by_actor_id(actor_id)
