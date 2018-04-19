@@ -133,7 +133,7 @@ def options
     when "2"
       puts "Please enter a movie title: \n"
       input = gets.chomp
-      get_movie_info_online(input)
+      search_api_for_movie(input)
     when "3"
       spacing
       get_actor_info_from_db
@@ -205,7 +205,7 @@ def get_director_info_from_db
   options
 end
 
-def get_movie_info_online(input) #number2
+def search_api_for_movie(input) #number2
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
   check = Movie.find_by(title: res["Title"])
@@ -222,7 +222,6 @@ def get_movie_info_online(input) #number2
       rating = res["imdbRating"].to_f
       !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
       !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
-      binding.pry
       d = Director.find_or_create_by(name: director)
       m = Movie.find_or_create_by(
         title: title,
@@ -241,9 +240,18 @@ def get_movie_info_online(input) #number2
           cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
         end
         spacing
-        puts "Successfully added #{title}"
-        puts "Director:  #{director}"
-        puts "Plot: #{plot}"
+        puts "Title: #{title}"
+        puts "Year: #{year}"
+        puts "MPAA rating: #{rated}"
+        puts "Release date: #{released}"
+        puts "Genre: #{genre}"
+        puts "Director: #{director}"
+        puts "*"*45
+        puts "Synopsis: #{plot}"
+        puts "*"*45
+        puts "IMDB Rating: #{rating}"
+        puts "Box office gross: #{box_office}"
+        puts "Studio: #{production}"
         spacing
         sleep(2)
         options
