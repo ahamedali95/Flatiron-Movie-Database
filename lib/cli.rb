@@ -40,8 +40,8 @@ end
 def sub_options
   puts "What would you like to do?"
   puts "A. See List of Movies."
-  puts "B. See List of Directors."
-  puts "C. See List of Actors.\n"
+  puts "B. See List of Actors."
+  puts "C. See List of Directors.\n"
   puts "**************************************"
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
@@ -72,16 +72,10 @@ def print_one_list(input)
   case input
     when "a"
       get_movie_info_from_db
-      spacing
-      options
     when "b"
       get_actor_info_from_db
-      spacing
-      options
     when "c"
       get_director_info_from_db
-      spacing
-      options
     when "e"
       goodbye
     when "r"
@@ -156,9 +150,7 @@ def options
       directors_movies
       # method(input)
     when "5"
-      spacing
       get_top_three_movies_from_db
-      spacing
       options
     when "6"
       find_top_3_gross
@@ -166,10 +158,10 @@ def options
       # method created by M||A
       options
     when "7"
-      spacing
       get_all_parental_ratings_from_db
-      puts "="*45
-      puts "Please enter a rating: \n"
+      get_movie_info_from_db_by_parental_rating
+      options
+    when "8"
 
       get_movie_info_from_db_by_parental_rating
     when "8"
@@ -193,18 +185,24 @@ def get_movie_info_from_db
   Movie.select(:id, :title).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
+  spacing
+  options
 end
 
 def get_actor_info_from_db
   Actor.select(:name, :id).each do |actor_obj|
     puts "#{actor_obj.id}. #{actor_obj.name}" if actor_obj.name != "N/A"
   end
+  spacing
+  options
 end
 
 def get_director_info_from_db
   Director.select(:name, :id).each do |director_obj|
      puts "#{director_obj.id}. #{director_obj.name}" if director_obj.name != "N/A"
   end
+  spacing
+  options
 end
 
 def get_movie_info_online(input) #number2
@@ -281,6 +279,7 @@ def get_top_three_movies_from_db
   puts "1. #{movies[0].title} - #{movies[0].rating}"
   puts "2. #{movies[1].title} - #{movies[1].rating}"
   puts "3. #{movies[2].title} - #{movies[2].rating}"
+  spacing
 end
 
 def get_all_parental_ratings_from_db
@@ -292,10 +291,11 @@ def get_all_parental_ratings_from_db
 end
 
 def get_movie_info_from_db_by_parental_rating
+  puts "Please enter a rating: \n"
   input = input_goodbye_return
   movies = Movie.where("rated LIKE ?", "%#{input}%")
 
-  if movies.empty? || p_rating.empty?
+  if movies.empty? || input.empty?
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
