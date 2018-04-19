@@ -194,7 +194,6 @@ def search_api_for_movie(input) #number2
     puts "Movie not found!"
     options
   end
-  binding.pry
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
@@ -257,18 +256,27 @@ def search_api_for_movie(input) #number2
           puts "Release date: #{movie.released}"
           puts "Genre(s): #{movie.genre}"
           puts "*"*45
+          puts "Director: #{   Movie.where({title: movie.title}).first.directors.first.name}"
+          puts "Cast: #{ Movie.where({title: movie.title}).first1.actors.each {|actor| puts actor.name}}"
           puts "Synopsis: #{movie.plot}"
           puts "*"*45
           puts "IMDB rating: #{movie.rating}"
           puts "Box office gross: #{movie.box_office}"
           puts "Studio: #{movie.production}"
-          equal_space_equal
         end
         equal_space_equal
         sleep(3)
         options
       end
 end
+
+# SELECT name FROM directors INNER JOIN directed_movies ON director_id = directors.id INNER JOIN movies ON movie_id = movie.id WHERE director_id = director.id && movie_id = in_db.id
+
+
+
+
+
+
 
 # To-dos:
 # 1. getting actor and director to work with the last else statement
