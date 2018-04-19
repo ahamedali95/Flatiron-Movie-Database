@@ -243,17 +243,20 @@ end
 # INNER JOIN actors
 # ON casts.actor_id = actors.id
 # WHERE actors.name = "hugh jackman"
-def get_movies_by_actor_id(actor_id)
-  sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
-  movies = Movie.joins(sql_statement)
 
-  if movies.empty?
+def get_movies_by_actor_id(actor_id)
+  actor_ids = Actor.select(:id).map do |actor_obj|
+    actor_obj.id.to_s
+  end
+  #
+  if actor_id.empty? || !actor_ids.include?(actor_id)
     get_actor_info_from_db
     puts "Invalid entry. Please enter a number from the list: "
     get_movies_by_actor_id(gets.chomp)
   else
     actor_name = Actor.find(actor_id).name
     puts "#{actor_name} is part of:"
+    movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}")
     movies.each do |movie_obj|
       puts movie_obj.title
     end
