@@ -258,6 +258,7 @@ end
 def get_movies_by_actor_id
   equal_space_equal
   puts "Please enter the actor's id: \n"
+  puts "Press (e) to Exit || (r) Return to Main Menu."
   input = input_goodbye_return
 
   actor_ids = Actor.select(:id).map do |actor_obj|
