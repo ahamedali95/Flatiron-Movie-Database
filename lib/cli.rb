@@ -202,7 +202,7 @@ def search_api_for_movie(input) #number2
     puts "Movie not found!"
     options
   end
-  binding.pry
+
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
