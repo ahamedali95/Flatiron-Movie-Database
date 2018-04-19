@@ -138,8 +138,7 @@ def options
     when "2"
       puts "Please enter a movie title: \n"
       input = gets.chomp
-
-      #get_movie_info_from_db
+      get_movie_info_online(input)
     when "3"
       puts "Please enter an actors name: \n"
       input = gets.chomp
@@ -170,7 +169,7 @@ def options
       # need to get a list of range #TODO
       puts "Please enter a decade: \n"
       input = gets.chomp
-      # method(input)
+      find_by_decade(input)
     when "9" # 9. Search Movie by by Studio."
       spacing
       print_studio_list
@@ -255,16 +254,37 @@ end
 def find_by_decade(input)
   if input.length < 4
     puts "Please enter the decade in 4-digit format, i.e. '1980s.''"
-    binding.pry
   else
   range_min = input.gsub(/[^0-9 ]/i, '').to_i
   range_max = range_min + 9
-  binding.pry
-  result = Movie.scoped(:conditions => { :year => range_min...range_max })
+  result = Movie.where({ :year => range_min...range_max })
   end
-  puts result
+  result.each do |movie|
+    puts movie.title
+  end
 end
 
+def get_movie_info_online(input)
+  req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
+  res = JSON.parse(req)
+  title = res["Title"]
+  year = res["Year"].to_i
+  rated = res["Rated"]
+  released = res["Released"]
+  genre = res["Genre"]
+  director = res["Director"].split(",").first
+  plot = res["Plot"]
+  rating = res["imdbRating"].to_f
+  !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
+  !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
+  new_film = Movie.create(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
+
+  # new_film.each do |key, value|
+  #   puts key + ' : ' + value
+  # end
+
+  #This should work, but for some reason I can't call .each on new_film. -MDT
+end
 
 
 
