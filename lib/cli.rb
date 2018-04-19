@@ -170,13 +170,7 @@ def options
       options
     when "9" # 9. Search Movie by by Studio."
       spacing
-      print_studio_list
-      puts "="*45
-      puts "Please enter a studio name: \n".upcase
       studio_movies
-      puts "$"*40
-      puts "="*40
-      options
     else
       puts "Not a valid option. Please try again: \n".upcase
       options
@@ -262,8 +256,7 @@ end
 
 
 def get_movies_by_actor_id
-  puts "*"*45
-  puts "\n"
+  equal_space_equal
   puts "Please enter the actor's id: \n"
   input = input_goodbye_return
 
@@ -322,10 +315,7 @@ def get_movie_info_from_db_by_parental_rating
 end
 
 def print_not_valid_option
-  puts "="*45
-  puts "\n"
-  puts "\n"
-  puts "="*45
+  equal_space_equal
   puts "Not a valid option.".upcase
   puts "Please try again: \n"
   puts "="*45
@@ -339,10 +329,21 @@ def print_studio_list
   a = m.each_with_index do |prod, index|
     puts "#{index+1}. #{prod}"
   end
+  puts "-"*45
+  puts "(e) to EXIT || (r) Return to Main menu "
 end
 
+def equal_space_equal
+  puts "="*45
+  puts "\n"
+  puts "="*45
+end
 #RRR
 def studio_movies
+  print_studio_list
+  equal_space_equal
+
+  puts "Please enter a studio name: \n".upcase
   input = input_goodbye_return
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   case movies
@@ -383,9 +384,7 @@ def find_top_3_gross #6
 end
 
 def print_decade_example
-  puts "\n"
-  puts "\n"
-  puts "*"*45
+  equal_space_equal
   puts "Please enter a year: \n".upcase
 
   puts "Enter a year and we will return \n"
@@ -403,15 +402,14 @@ end
 
 def input_goodbye_return
   input = gets.chomp
-  goodbye if input == "e"
-  options if input == "r"
+  goodbye if input.downcase == "e"
+  options if input.downcase == "r"
   input
 end
 
 def decade_by_year # 8. Search Movie by by decade"
   print_decade_example
   input = input_goodbye_return
-  binding.pry
   not_valid_length if input.length < 4 && input.length > 4
   array1 = input.split("")
   array2 = input.split("")
