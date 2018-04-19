@@ -52,7 +52,7 @@ def goodbye
   puts "\n"
   puts "\n"
   puts "*"*45
-  puts "|       Thank you for stopping by!!      |".upcase
+  puts "|       Thank you for stopping bye!!      |".upcase
   puts "|                GoodBye                   |".upcase
   puts "*"*45
 
@@ -94,6 +94,42 @@ def print_one_list(input)
   end
 end
 
+def print_directors_list
+  Director.all.each do |direct|
+    puts "#{direct.id}. #{direct.name}"
+  end
+
+
+end
+
+def directors_movies
+  puts "Please enter a directors number: \n"
+  puts "Press (e) to Exit || (r) Return to Main Menu."
+  id = gets.chomp
+  goodbye if id =="e"
+  options if id == "r"
+  check = id.to_i
+  if check < 1
+    puts print_not_valid_option
+    print_directors_list
+    directors_movies
+  end
+  dm = DirectedMovie.all.where(director_id: id)
+  count = 1
+  final = dm.each do |mov|
+      Movie.all.select do |join|
+        if mov.movie_id == join.id
+
+          puts "#{count}. #{join.title}"
+          count+=1
+        end
+    end
+  end
+
+
+end
+
+
 def options
   input = gets.chomp
 
@@ -115,8 +151,11 @@ def options
       get_movies_by_actor_id(input)
       print_list_commands_with_options
     when "4"
-      puts "Please enter a directors name: \n"
-      input = gets.chomp
+      # 4. Search Movies by Director.
+      spacing
+      print_directors_list
+      puts "\n"
+      directors_movies
       # method(input)
     when "5"
       get_top_three_movies_from_db
