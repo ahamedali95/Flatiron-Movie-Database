@@ -6,13 +6,10 @@ def welcome
   pastel = Pastel.new
 
 
-  puts pastel.red(font.write("  WELCOME"))
-  puts pastel.red(font.write("                       TO"))
-  puts pastel.red(font.write("FLATIRON"))
-  puts pastel.red(font.write("           MOVIE"))
-
-  puts pastel.red(font.write("DATABASE"))
-  puts pastel.red(font.write("                       CLI"))
+  puts pastel.red(font.write("  WELCOME    TO"))
+  puts pastel.red(font.write("            FLATIRON"))
+  puts pastel.red(font.write("          DATABASE"))
+  puts pastel.red(font.write("              MOVIE           CLI"))
   # puts "*"*45
   # puts "|                                     |"
   # puts "|       Welcometo Flatiron Movie      |".upcase
@@ -49,15 +46,22 @@ def sub_options
 end
 
 def goodbye
-  puts "\n"*4
-  puts "*"*45
-  puts "|                                           |"
-  puts "|         Thank you for stopping bye!!      |".upcase
-  puts "|                 GoodBye                   |".upcase
-  puts "|                                           |"
-  puts "*"*45
-  puts "\n"*5
+  font = TTY::Font.new(:starwars)
+  pastel = Pastel.new
+
+  puts pastel.red(font.write(" Thank   you   for"))
+  puts pastel.red(font.write("  stopping           bye!!"))
+  puts pastel.red(font.write("          GoodBye"))
   abort
+  # puts "\n"*4
+  # puts "*"*45
+  # puts "|                                           |"
+  # puts "|         Thank you for stopping bye!!      |".upcase
+  # puts "|                 GoodBye                   |".upcase
+  # puts "|                                           |"
+  # puts "*"*45
+  # puts "\n"*5
+  # abort
 end
 
 def spacing
@@ -96,29 +100,29 @@ def print_directors_list
 end
 
 def directors_movies
+  spacing
+  print_directors_list
+  puts "\n"
   puts "Please enter a directors number: \n"
   puts "Press (e) to Exit || (r) Return to Main Menu."
   id = input_goodbye_return
 
   dm = DirectedMovie.all.where(director_id: id)
   case dm
-    when "e"
-      goodbye
-    when "r"
-      options
     when []
       puts print_not_valid_option
-      print_directors_list
       directors_movies
     else
+      equal_space_equal
       dm.each do |mov|
           Movie.all.each_with_index do |join, index|
             if mov.movie_id == join.id
               puts "#{index +1}. #{join.title}"
             end
           end
+          equal_space_equal
+          options
       end
-
   end
 end #directors_movies
 
@@ -139,22 +143,18 @@ def options
     when "3"
       print_actors_list
       get_movies_by_actor_id
-      spacing
-      options
+
       #Then that methods calls spacing and options methods for all cases after this
     when "4"
-      spacing
-      print_directors_list
-      puts "\n"
+
       directors_movies
     when "5"
       get_top_three_movies_from_db
-      spacing
-      options
+
+
     when "6"
       find_top_3_gross
     when "7"
-
       get_movie_info_from_db_by_parental_rating
       spacing
       options
@@ -299,13 +299,17 @@ def get_movies_by_actor_id
     get_movies_by_actor_id
   else
     actor_name = Actor.find(input).name
+    equal_space_equal
     puts "\n"
     puts "#{actor_name} is part of:"
     movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{input}")
     movies.each do |movie_obj|
       puts movie_obj.title
     end
+    spacing
+    options
   end
+
 end
 
 def get_top_three_movies_from_db
@@ -313,6 +317,9 @@ def get_top_three_movies_from_db
   puts "1. #{movies[0].title} - #{movies[0].rating}"
   puts "2. #{movies[1].title} - #{movies[1].rating}"
   puts "3. #{movies[2].title} - #{movies[2].rating}"
+  spacing
+  sleep(4)
+  options
 end
 
 def print_parental_ratings_list
