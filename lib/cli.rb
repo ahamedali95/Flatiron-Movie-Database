@@ -42,40 +42,43 @@ def sub_options
   puts "A. See List of Movies."
   puts "B. See List of Actors."
   puts "C. See List of Directors.\n"
-  puts "**************************************"
+  puts "*"*45
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
   input = gets.chomp.downcase
 end
 
 def goodbye
-  puts "\n"
-  puts "\n"
+  puts "\n"*4
   puts "*"*45
   puts "|                                           |"
   puts "|         Thank you for stopping bye!!      |".upcase
   puts "|                 GoodBye                   |".upcase
   puts "|                                           |"
   puts "*"*45
-  puts "\n"*3
+  puts "\n"*5
   abort
 end
 
 def spacing
-  puts "="*40
-  puts "\n"
-  puts "="*40
-  sleep(2)
+  equal_space_equal
+  sleep(1)
 end
 
 def print_one_list(input)
   case input
     when "a"
-      get_movie_info_from_db
+      print_movies_list
+      spacing
+      options
     when "b"
-      get_actor_info_from_db
+      print_actors_list
+      spacing
+      options
     when "c"
-      get_director_info_from_db
+      print_directors_list
+      spacing
+      options
     when "e"
       goodbye
     when "r"
@@ -95,9 +98,8 @@ end
 def directors_movies
   puts "Please enter a directors number: \n"
   puts "Press (e) to Exit || (r) Return to Main Menu."
-  id = gets.chomp
-  goodbye if id =="e"
-  options if id =="r"
+  id = input_goodbye_return
+
   dm = DirectedMovie.all.where(director_id: id)
   case dm
     when "e"
@@ -135,72 +137,54 @@ def options
       input = gets.chomp
       search_api_for_movie(input)
     when "3"
-      spacing
-      get_actor_info_from_db
-      puts "Please enter the actor's id: \n"
-      input = gets.chomp
-      get_movies_by_actor_id(input)
+      print_actors_list
+      get_movies_by_actor_id
       spacing
       options
+      #Then that methods calls spacing and options methods for all cases after this
     when "4"
-      # 4. Search Movies by Director.
       spacing
       print_directors_list
       puts "\n"
       directors_movies
-      # method(input)
     when "5"
       get_top_three_movies_from_db
+      spacing
       options
     when "6"
       find_top_3_gross
-      spacing
-      # method created by M||A
-      options
     when "7"
       get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
+      spacing
       options
     when "8"
       decade_by_year
-      options
     when "9" # 9. Search Movie by by Studio."
       spacing
-      print_studio_list
-      puts "="*45
-      puts "Please enter a studio name: \n".upcase
       studio_movies
-      puts "$"*40
-      puts "="*40
-      options
     else
       puts "Not a valid option. Please try again: \n".upcase
       options
   end
 end
 
-def get_movie_info_from_db
+def print_movies_list
   Movie.select(:id, :title).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
-  spacing
-  options
 end
 
-def get_actor_info_from_db
+def print_actors_list
   Actor.select(:name, :id).each do |actor_obj|
     puts "#{actor_obj.id}. #{actor_obj.name}" if actor_obj.name != "N/A"
   end
-  spacing
-  options
 end
 
-def get_director_info_from_db
+def print_directors_list
   Director.select(:name, :id).each do |director_obj|
      puts "#{director_obj.id}. #{director_obj.name}" if director_obj.name != "N/A"
   end
-  spacing
-  options
 end
 
 def search_api_for_movie(input) #number2
@@ -280,19 +264,27 @@ end
 # 1. getting actor and director to work with the last else statement
 # 2. error handling - crashes if input is gibberish
 
-def get_movies_by_actor_id(actor_id)
+def get_movies_by_actor_id
+  equal_space_equal
+  puts "Please enter the actor's id: \n"
+  puts "Press (e) to Exit || (r) Return to Main Menu."
+  input = input_goodbye_return
+
   actor_ids = Actor.select(:id).map do |actor_obj|
     actor_obj.id.to_s
   end
 
-  if actor_id.empty? || !actor_ids.include?(actor_id)
-    get_actor_info_from_db
-    puts "Invalid entry. Please enter a number from the list: "
-    get_movies_by_actor_id(gets.chomp)
+  if input.empty? || !actor_ids.include?(input)
+    puts "This is not a valid option"
+    print_actors_list
+    puts "Please try again: \n"
+    get_movies_by_actor_id
   else
-    actor_name = Actor.find(actor_id).name
+    actor_name = Actor.find(input).name
+    puts "\n"
     puts "#{actor_name} is part of:"
-    movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}")
+
+    movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{input}")
     movies.each do |movie_obj|
       puts movie_obj.title
     end
@@ -304,7 +296,6 @@ def get_top_three_movies_from_db
   puts "1. #{movies[0].title} - #{movies[0].rating}"
   puts "2. #{movies[1].title} - #{movies[1].rating}"
   puts "3. #{movies[2].title} - #{movies[2].rating}"
-  spacing
 end
 
 def get_all_parental_ratings_from_db
@@ -324,7 +315,7 @@ def get_movie_info_from_db_by_parental_rating
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
-    get_movie_info_from_db_by_parental_rating
+    print_movies_list_by_parental_rating
   else
     spacing
     movies.each_with_index do |movie_obj, index|
@@ -334,10 +325,7 @@ def get_movie_info_from_db_by_parental_rating
 end
 
 def print_not_valid_option
-  puts "="*45
-  puts "\n"
-  puts "\n"
-  puts "="*45
+  equal_space_equal
   puts "Not a valid option.".upcase
   puts "Please try again: \n"
   puts "="*45
@@ -351,10 +339,21 @@ def print_studio_list
   a = m.each_with_index do |prod, index|
     puts "#{index+1}. #{prod}"
   end
+  puts "-"*45
+  puts "(e) to EXIT || (r) Return to Main menu "
 end
 
+def equal_space_equal
+  puts "="*45
+  puts "\n"
+  puts "="*45
+end
 #RRR
 def studio_movies
+  print_studio_list
+  equal_space_equal
+
+  puts "Please enter a studio name: \n".upcase
   input = input_goodbye_return
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   case movies
@@ -377,6 +376,7 @@ def studio_movies
 end
 
 def find_top_3_gross #6
+  equal_space_equal
   response = Movie.where.not(box_office: [nil, ""])
 
   unsorted = response.each {|movie|
@@ -391,13 +391,14 @@ def find_top_3_gross #6
   puts "2. #{result[1].title}  || Gross Amount:  $#{result[1].box_office}"
   puts "3. #{result[2].title}  || Gross Amount:  $#{result[2].box_office}"
 
+  spacing
+  sleep(3)
+  options
 
 end
 
 def print_decade_example
-  puts "\n"
-  puts "\n"
-  puts "*"*45
+  equal_space_equal
   puts "Please enter a year: \n".upcase
 
   puts "Enter a year and we will return \n"
@@ -415,15 +416,14 @@ end
 
 def input_goodbye_return
   input = gets.chomp
-  goodbye if input == "e"
-  options if input == "r"
+  goodbye if input.downcase == "e"
+  options if input.downcase == "r"
   input
 end
 
 def decade_by_year # 8. Search Movie by by decade"
   print_decade_example
   input = input_goodbye_return
-  binding.pry
   not_valid_length if input.length < 4 && input.length > 4
   array1 = input.split("")
   array2 = input.split("")
@@ -451,6 +451,7 @@ def decade_by_year # 8. Search Movie by by decade"
     end
     puts "\n"
     sleep(2)
+    options
   end
 end
 
