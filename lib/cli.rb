@@ -126,7 +126,6 @@ def directors_movies
           equal_space_equal
           options
       end
-
   end
 end #directors_movies
 
