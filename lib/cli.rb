@@ -109,9 +109,11 @@ def options
 
       #get_movie_info_from_db
     when "3"
-      puts "Please enter an actors name: \n"
+      get_actor_info_from_db
+      puts "Please enter the actor's id: \n"
       input = gets.chomp
-      #A method
+      get_movies_by_actor_id(input)
+      print_list_commands_with_options
     when "4"
       puts "Please enter a directors name: \n"
       input = gets.chomp
@@ -181,6 +183,22 @@ end
 # INNER JOIN actors
 # ON casts.actor_id = actors.id
 # WHERE actors.name = "hugh jackman"
+def get_movies_by_actor_id(actor_id)
+  sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
+  movies = Movie.joins(sql_statement)
+
+  if movies.empty?
+    get_actor_info_from_db
+    puts "Invalid entry. Please enter a number from the list: "
+    get_movies_by_actor_id(gets.chomp)
+  else
+    actor_name = Actor.find(actor_id).name
+    puts "#{actor_name} is part of:"
+    movies.each do |movie_obj|
+      puts movie_obj.title
+    end
+  end
+end
 
 def get_top_three_movies_from_db
   movies = Movie.order("rating DESC")
