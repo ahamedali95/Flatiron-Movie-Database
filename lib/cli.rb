@@ -205,12 +205,11 @@ def get_director_info_from_db
   end
 end
 
-def get_movie_info_online(input)
+def get_movie_info_online(input) #number2
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
   check = Movie.find_by(title: res["Title"])
 binding.pry
-  # if check == [] || check == nil
 
 
   title = res["Title"]
@@ -233,7 +232,6 @@ binding.pry
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
       cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
-    end
 
     end
 
