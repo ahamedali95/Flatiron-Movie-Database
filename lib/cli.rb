@@ -190,6 +190,11 @@ end
 def search_api_for_movie(input) #number2
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
+  if res["Error"]== "Movie not found!" || res["Response"] == "False"
+    puts "Movie not found!"
+    options
+  end 
+  binding.pry
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
@@ -241,6 +246,7 @@ def search_api_for_movie(input) #number2
         sleep(2)
         options
       else
+        equal_space_equal
         in_db = Movie.where("title LIKE (?)", "%#{input}%")
         in_db.each do |movie|
           puts "Title: #{movie.title}"
@@ -254,8 +260,10 @@ def search_api_for_movie(input) #number2
           puts "IMDB rating: #{movie.rating}"
           puts "Box office gross: #{movie.box_office}"
           puts "Studio: #{movie.production}"
-          spacing
+          equal_space_equal
         end
+        equal_space_equal
+        sleep(3)
         options
       end
 end
