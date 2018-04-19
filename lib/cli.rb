@@ -69,10 +69,16 @@ def print_one_list(input)
   case input
     when "a"
       print_movies_list
+      spacing
+      options
     when "b"
       print_actors_list
+      spacing
+      options
     when "c"
       print_directors_list
+      spacing
+      options
     when "e"
       goodbye
     when "r"
@@ -133,6 +139,8 @@ def options
     when "3"
       print_actors_list
       get_movies_by_actor_id
+      spacing
+      options
       #Then that methods calls spacing and options methods for all cases after this
     when "4"
       spacing
@@ -141,12 +149,16 @@ def options
       directors_movies
     when "5"
       get_top_three_movies_from_db
+      spacing
+      options
     when "6"
       find_top_3_gross
 
     when "7"
       get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
+      spacing
+      options
     when "8"
       decade_by_year
     when "9" # 9. Search Movie by by Studio."
@@ -162,8 +174,6 @@ def print_movies_list
   Movie.select(:id, :title).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
-  spacing
-  options
 end
 
 def print_actors_list
@@ -176,8 +186,6 @@ def print_directors_list
   Director.select(:name, :id).each do |director_obj|
      puts "#{director_obj.id}. #{director_obj.name}" if director_obj.name != "N/A"
   end
-  spacing
-  options
 end
 
 def search_api_for_movie(input) #number2
@@ -264,8 +272,6 @@ def get_movies_by_actor_id
       puts movie_obj.title
     end
   end
-  spacing
-  options
 end
 
 def get_top_three_movies_from_db
@@ -273,8 +279,6 @@ def get_top_three_movies_from_db
   puts "1. #{movies[0].title} - #{movies[0].rating}"
   puts "2. #{movies[1].title} - #{movies[1].rating}"
   puts "3. #{movies[2].title} - #{movies[2].rating}"
-  spacing
-  options
 end
 
 def get_all_parental_ratings_from_db
@@ -301,8 +305,6 @@ def get_movie_info_from_db_by_parental_rating
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
     end
   end
-  spacing
-  options
 end
 
 def print_not_valid_option
