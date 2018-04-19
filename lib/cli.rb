@@ -247,19 +247,13 @@ def studio_movies(input)
   goodbye if input == "e"
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   case movies
-    when []
+    when [] || nil
       print_not_valid_option
       print_studio_list
       puts "Please type a name from the list: "
       input = gets.chomp
       studio_movies(input)
 
-    when nil
-      print_not_valid_option
-      print_studio_list
-      puts "Please type a name from the list: "
-      input = gets.chomp
-      studio_movies(input)
     else
       puts "*"*45
       puts "\n"
