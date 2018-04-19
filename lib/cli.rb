@@ -125,10 +125,7 @@ def directors_movies
         end
     end
   end
-
-
 end
-
 
 def options
   input = gets.chomp
