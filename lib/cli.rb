@@ -194,6 +194,10 @@ def search_api_for_movie(input) #number2
     puts "Movie not found!"
     options
   end
+<<<<<<< HEAD
+=======
+
+>>>>>>> 257204d74758d1c75f22ce2f3c35712fefcb3f38
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
