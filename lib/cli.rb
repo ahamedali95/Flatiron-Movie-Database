@@ -21,7 +21,7 @@ def welcome
   # puts "="*45
 end
 
-def print_list_commands_with_options
+def print_list_commands
   puts "*************************************************"
   puts "  # 1. See list of Movies, Directors, Actors."
   puts "  # 2. Search Online for Available movies."
@@ -34,7 +34,7 @@ def print_list_commands_with_options
   puts "  # 9. Search Movie by by Studio."
   puts "*************************************************"
   puts "Please enter an option from 1-9, 'e' to Exit. "
-  options
+
 end
 
 def sub_options
@@ -52,8 +52,8 @@ def goodbye
   puts "\n"
   puts "\n"
   puts "*"*45
-  puts "|       Thank you for stopping by!!      |".upcase
-  puts "|                GoodBye                   |".upcase
+  puts "|         Thank you for stopping bye!!      |".upcase
+  puts "|                 GoodBye                   |".upcase
   puts "*"*45
 
   abort
@@ -71,30 +71,64 @@ def print_one_list(input)
     when "a"
       get_movie_info_from_db
       spacing
-      print_list_commands_with_options
-
+      options
     when "b"
       get_actor_info_from_db
       spacing
-      print_list_commands_with_options
-
+      options
     when "c"
       get_director_info_from_db
       spacing
-      print_list_commands_with_options
-
+      options
     when "e"
       goodbye
     when "r"
-      print_list_commands_with_options
-
+      options
     else
       input = sub_options
       print_one_list(input)
   end
 end
 
+def print_directors_list
+  Director.all.each do |direct|
+    puts "#{direct.id}. #{direct.name}"
+  end
+
+
+end
+
+def directors_movies
+  puts "Please enter a directors number: \n"
+  puts "Press (e) to Exit || (r) Return to Main Menu."
+  id = gets.chomp
+  goodbye if id =="e"
+  options if id =="r"
+  dm = DirectedMovie.all.where(director_id: id)
+  case dm
+    when "e"
+      goodbye
+    when "r"
+      options
+    when []
+      puts print_not_valid_option
+      print_directors_list
+      directors_movies
+    else
+      dm.each do |mov|
+          Movie.all.each_with_index do |join, index|
+            if mov.movie_id == join.id
+              puts "#{index +1}. #{join.title}"
+            end
+          end
+      end
+
+  end
+end #directors_movies
+
+
 def options
+  print_list_commands
   input = gets.chomp
 
   case input
@@ -112,31 +146,32 @@ def options
       puts "Please enter the actor's id: \n"
       input = gets.chomp
       get_movies_by_actor_id(input)
-      print_list_commands_with_options
+      options
     when "4"
-      puts "Please enter a directors name: \n"
-      input = gets.chomp
+      # 4. Search Movies by Director.
+      spacing
+      print_directors_list
+      puts "\n"
+      directors_movies
       # method(input)
     when "5"
       get_top_three_movies_from_db
       sleep(3)
-      print_list_commands_with_options
+      options
     when "6"
       find_top_3_gross
       spacing
       # method created by M||A
       sleep(3)
-      print_list_commands_with_options
+      options
     when "7"
       get_all_parental_ratings_from_db
       puts "Please enter a rating: \n"
       input = gets.chomp
       get_movie_info_from_db_by_parental_rating(input)
     when "8"
-      input = print_decade_example
-      # need to get a list of range #TODO
-      decade_by_year(input)
-      # method(input)
+
+      decade_by_year
     when "9" # 9. Search Movie by by Studio."
       spacing
       print_studio_list
@@ -147,10 +182,10 @@ def options
       studio_movies(input)
       puts "$"*40
       puts "="*40
-      print_list_commands_with_options
+      options
     else
       puts "Not a valid option. Please try again: \n".upcase
-      print_list_commands_with_options
+      options
   end
 end
 
@@ -200,19 +235,7 @@ def get_movie_info_online(input)
   new_film.print_info
 end
 
-  #This almost works, just need it to work with director and actor.
 
-
-# 3. Search movies by actor
-#
-# #Movie.joins(casts: :actor).where("actors.name = ?, 'Marlon Brando'")
-#
-# SELECT movies.name FROM movies
-# INNER JOIN casts
-# ON movies.id = movie_id
-# INNER JOIN actors
-# ON casts.actor_id = actors.id
-# WHERE actors.name = "hugh jackman"
 def get_movies_by_actor_id(actor_id)
   sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
   movies = Movie.joins(sql_statement)
@@ -258,7 +281,7 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
     movies.each_with_index do |movie_obj, index|
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
     end
-    print_list_commands_with_options
+    options
   end
 end
 
@@ -303,7 +326,7 @@ def studio_movies(input)
       end
       puts "\n"
       sleep(2)
-      print_list_commands_with_options
+      options
   end
 end
 
@@ -333,18 +356,21 @@ def print_decade_example
   puts "any movies found within that decade.\n"
   puts "Example: 1995"
   puts "Will return all movies from 1990-1999.\n"
-  input = gets.chomp
+  puts "Enter (e) to EXIT || (r) Return to Main Menu."
+  #goes to decade by year method
 end
 
 def not_valid_length
   puts "Not a valid length.\n"
-  input = print_decade_example
-  decade_by_year(input)
+  decade_by_year
 end
 
-def decade_by_year(input) # 8. Search Movie by by decade"
+def decade_by_year # 8. Search Movie by by decade"
+  print_decade_example
+  input = gets.chomp
   goodbye if input == "e"
-  not_valid_length if input.length < 4
+  options if input == "r"
+  not_valid_length if input.length < 4 && input.length > 4
   array1 = input.split("")
   array2 = input.split("")
   array1[3] = "0"
@@ -357,13 +383,11 @@ def decade_by_year(input) # 8. Search Movie by by decade"
     when []
       puts "No Movies found for that year."
       puts "Please try again: \n"
-      input = print_decade_example
-      decade_by_year(input)
+      decade_by_year
     when nil
       puts "No Movies found for that year."
       puts "Please try again: \n"
-      input = print_decade_example
-      decade_by_year(input)
+      decade_by_year
     else
       puts "*"*45
       puts "\n"
@@ -379,5 +403,7 @@ end
   #DO NOT CALL RUN in here.
   def run
     welcome
-    print_list_commands_with_options
+    options
+
+
   end
