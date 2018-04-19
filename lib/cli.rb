@@ -154,7 +154,7 @@ def options
     when "6"
       find_top_3_gross
     when "7"
-      get_all_parental_ratings_from_db
+
       get_movie_info_from_db_by_parental_rating
       spacing
       options
@@ -281,26 +281,31 @@ def get_top_three_movies_from_db
   puts "3. #{movies[2].title} - #{movies[2].rating}"
 end
 
-def get_all_parental_ratings_from_db
+def print_parental_ratings_list
   Movie.select(:rated).map do |movie_obj|
     movie_obj.rated
   end.uniq.each do |parental_rating|
-    puts parental_rating
+    puts parental_rating if parental_rating != "N/A"
   end
 end
 
 def get_movie_info_from_db_by_parental_rating
+  print_parental_ratings_list
+  puts "Enter (e) to EXIT || (m) Return to Main Menu."
   puts "Please enter a rating: \n"
-  input = input_goodbye_return
+
+  input = gets.chomp
+  goodbye if input.downcase == "e"
+  options if input.downcase == "m"
   movies = Movie.where("rated LIKE ?", "%#{input}%")
 
   if movies.empty? || input.empty?
     puts "This is not a valid option"
-    get_all_parental_ratings_from_db
+    print_parental_ratings_list
     puts "Please try again: \n"
     print_movies_list_by_parental_rating
   else
-    spacing
+    equal_space_equal
     movies.each_with_index do |movie_obj, index|
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
     end
