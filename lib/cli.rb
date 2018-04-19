@@ -254,6 +254,8 @@ def search_api_for_movie(input) #number2
         sleep(2)
         options
       else
+        puts "That movie is already in the database. \n
+        Here's some details about it:"
         equal_space_equal
         in_db = Movie.where("title LIKE (?)", "%#{input}%")
         in_db.each do |movie|
