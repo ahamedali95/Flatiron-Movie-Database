@@ -52,8 +52,8 @@ def goodbye
   puts "\n"
   puts "\n"
   puts "*"*45
-  puts "|       Thank you for stopping bye!!      |".upcase
-  puts "|                GoodBye                   |".upcase
+  puts "|         Thank you for stopping bye!!      |".upcase
+  puts "|                 GoodBye                   |".upcase
   puts "*"*45
 
   abort
@@ -107,27 +107,28 @@ def directors_movies
   puts "Press (e) to Exit || (r) Return to Main Menu."
   id = gets.chomp
   goodbye if id =="e"
-  options if id == "r"
-  check = id.to_i
-  if check < 1
-    puts print_not_valid_option
-    print_directors_list
-    directors_movies
-  end
+  options if id =="r"
   dm = DirectedMovie.all.where(director_id: id)
-  count = 1
-  final = dm.each do |mov|
-      Movie.all.select do |join|
-        if mov.movie_id == join.id
+  case dm
+    when "e"
+      goodbye
+    when "r"
+      options
+    when []
+      puts print_not_valid_option
+      print_directors_list
+      directors_movies
+    else
+      dm.each do |mov|
+          Movie.all.each_with_index do |join, index|
+            if mov.movie_id == join.id
+              puts "#{index +1}. #{join.title}"
+            end
+          end
+      end
 
-          puts "#{count}. #{join.title}"
-          count+=1
-        end
-    end
   end
-
-
-end
+end #directors_movies
 
 
 def options
