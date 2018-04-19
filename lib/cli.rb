@@ -52,10 +52,12 @@ def goodbye
   puts "\n"
   puts "\n"
   puts "*"*45
+  puts "|                                           |"
   puts "|         Thank you for stopping bye!!      |".upcase
   puts "|                 GoodBye                   |".upcase
+  puts "|                                           |"
   puts "*"*45
-
+  puts "\n"*3
   abort
 end
 
@@ -170,16 +172,13 @@ def options
       input = gets.chomp
       get_movie_info_from_db_by_parental_rating(input)
     when "8"
-
       decade_by_year
     when "9" # 9. Search Movie by by Studio."
       spacing
       print_studio_list
       puts "="*45
       puts "Please enter a studio name: \n".upcase
-      input = gets.chomp.downcase
-      goodbye if input == "e"
-      studio_movies(input)
+      studio_movies
       puts "$"*40
       puts "="*40
       options
@@ -297,17 +296,15 @@ def print_studio_list
 end
 
 #RRR
-def studio_movies(input)
-  # input = input.split.map(&:capitalize).join(' ')
-  goodbye if input == "e"
+def studio_movies
+  input = input_goodbye_return
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   case movies
     when [] || nil
       print_not_valid_option
       print_studio_list
       puts "Please type a name from the list: "
-      input = gets.chomp
-      studio_movies(input)
+      studio_movies
 
     else
       puts "*"*45
@@ -331,10 +328,12 @@ def find_top_3_gross #6
     movie[:box_office].to_i
     end
   result = sorted.reverse
+  puts "The following are the top 3 grossing movies within our database: "
+  puts "1. #{result[0].title}  || Gross Amount:  $#{result[0].box_office}"
+  puts "2. #{result[1].title}  || Gross Amount:  $#{result[1].box_office}"
+  puts "3. #{result[2].title}  || Gross Amount:  $#{result[2].box_office}"
 
-  puts "The highest grossing movie in our database is #{result[0].title}, which made $#{result[0].box_office} at the box office."
-  puts "The second-highest grossing movie in our database is #{result[1].title}, which made $#{result[1].box_office} at the box office."
-  puts "Finally, the third-highest grossing movie in our database is #{result[2].title}, which made $#{result[2].box_office} at the box office."
+
 end
 
 def print_decade_example
@@ -351,16 +350,20 @@ def print_decade_example
   #goes to decade by year method
 end
 
-def not_valid_length
+def not_valid_length #part of 8
   puts "Not a valid length.\n"
   decade_by_year
 end
 
-def decade_by_year # 8. Search Movie by by decade"
-  print_decade_example
+def input_goodbye_return
   input = gets.chomp
   goodbye if input == "e"
   options if input == "r"
+end
+
+def decade_by_year # 8. Search Movie by by decade"
+  print_decade_example
+  input = input_goodbye_return
   not_valid_length if input.length < 4 && input.length > 4
   array1 = input.split("")
   array2 = input.split("")
