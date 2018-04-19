@@ -163,6 +163,7 @@ def options
       options
     when "8"
       decade_by_year
+      options
     when "9" # 9. Search Movie by by Studio."
       spacing
       print_studio_list
@@ -232,8 +233,6 @@ def search_api_for_movie(input) #number2
         box_office: box_office,
         production: production)
 
-        binding.pry
-
       directed_movie_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
       actors = res["Actors"].split(", ")
         actors.each do |name|
@@ -259,8 +258,7 @@ def search_api_for_movie(input) #number2
         sleep(2)
         options
       else
-        puts "Movie Already Exists"
-        puts "#{check.title}"
+        puts "#{check.title} is already in the database."
       end
 end
 
