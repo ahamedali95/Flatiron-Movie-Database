@@ -168,8 +168,8 @@ def options
     when "7"
       get_all_parental_ratings_from_db
       puts "Please enter a rating: \n"
-      input = gets.chomp
-      get_movie_info_from_db_by_parental_rating(input)
+
+      get_movie_info_from_db_by_parental_rating
     when "8"
       decade_by_year
     when "9" # 9. Search Movie by by Studio."
@@ -267,15 +267,15 @@ def get_all_parental_ratings_from_db
   end
 end
 
-def get_movie_info_from_db_by_parental_rating(p_rating)
-  formatted_rating = p_rating.downcase
-  movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
+def get_movie_info_from_db_by_parental_rating
+  input = input_goodbye_return
+  movies = Movie.where("rated LIKE ?", "%#{input}%")
 
   if movies.empty? || p_rating.empty?
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
-    get_movie_info_from_db_by_parental_rating(gets.chomp)
+    get_movie_info_from_db_by_parental_rating
   else
     movies.each_with_index do |movie_obj, index|
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
