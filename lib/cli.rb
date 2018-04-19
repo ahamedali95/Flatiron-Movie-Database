@@ -162,9 +162,6 @@ def options
       get_movie_info_from_db_by_parental_rating
       options
     when "8"
-
-      get_movie_info_from_db_by_parental_rating
-    when "8"
       decade_by_year
     when "9" # 9. Search Movie by by Studio."
       spacing
@@ -218,6 +215,7 @@ def search_api_for_movie(input) #number2
       released = res["Released"]
       genre = res["Genre"]
       director = res["Director"].split(",").first
+      cast = res["Actors"]
       plot = res["Plot"]
       rating = res["imdbRating"].to_f
       !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
@@ -233,6 +231,9 @@ def search_api_for_movie(input) #number2
         rating: rating,
         box_office: box_office,
         production: production)
+
+        binding.pry
+
       directed_movie_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
       actors = res["Actors"].split(", ")
         actors.each do |name|
@@ -245,7 +246,9 @@ def search_api_for_movie(input) #number2
         puts "MPAA rating: #{rated}"
         puts "Release date: #{released}"
         puts "Genre: #{genre}"
+        puts "*"*45
         puts "Director: #{director}"
+        puts "Starring: #{cast}"
         puts "*"*45
         puts "Synopsis: #{plot}"
         puts "*"*45
