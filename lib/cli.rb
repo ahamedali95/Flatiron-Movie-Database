@@ -342,12 +342,6 @@ def find_top_3_gross #6
   puts "3. #{result[2].title}  || Gross Amount:  $#{result[2].box_office}"
 
 
-<<<<<<< HEAD
-=======
-  puts "1. #{result[0].title} - $#{result[0].box_office}"
-  puts "2. #{result[1].title} - $#{result[1].box_office}"
-  puts "3. #{result[2].title} - $#{result[2].box_office}"
->>>>>>> 121bfe10599df7eed08c76904e524808406819c4
 end
 
 def print_decade_example
