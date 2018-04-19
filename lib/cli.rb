@@ -237,15 +237,32 @@ def search_api_for_movie(input) #number2
         puts "*"*45
         puts "IMDB Rating: #{rating}"
         puts "Box office gross: #{box_office}"
-        puts "Studio: #{production}"
         spacing
         sleep(2)
         options
       else
-        puts "#{check.title} is already in the database."
+        in_db = Movie.where("title LIKE (?)", "%#{input}%")
+        in_db.each do |movie|
+          puts "Title: #{movie.title}"
+          puts "Year: #{movie.year}"
+          puts "MPAA Rating: #{movie.rated}"
+          puts "Release date: #{movie.released}"
+          puts "Genre(s): #{movie.genre}"
+          puts "*"*45
+          puts "Synopsis: #{movie.plot}"
+          puts "*"*45
+          puts "IMDB rating: #{movie.rating}"
+          puts "Box office gross: #{movie.box_office}"
+          puts "Studio: #{movie.production}"
+          spacing
+        end
+        options
       end
 end
 
+# To-dos:
+# 1. getting actor and director to work with the last else statement
+# 2. error handling - crashes if input is gibberish
 
 def get_movies_by_actor_id
   equal_space_equal
