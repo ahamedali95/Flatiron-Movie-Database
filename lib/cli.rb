@@ -49,15 +49,24 @@ def sub_options
 end
 
 def goodbye
-  puts "\n"*4
-  puts "*"*45
-  puts "|                                           |"
-  puts "|         Thank you for stopping bye!!      |".upcase
-  puts "|                 GoodBye                   |".upcase
-  puts "|                                           |"
-  puts "*"*45
-  puts "\n"*5
-  abort
+  font = TTY::Font.new(:starwars)
+  pastel = Pastel.new
+
+  puts pastel.red(font.write(" Thank"))
+  puts pastel.red(font.write("            you"))
+  puts pastel.red(font.write("for stopping"))
+  puts pastel.red(font.write("            by!!"))
+  puts pastel.red(font.write("  GoodBye"))
+
+  # puts "\n"*4
+  # puts "*"*45
+  # puts "|                                           |"
+  # puts "|         Thank you for stopping bye!!      |".upcase
+  # puts "|                 GoodBye                   |".upcase
+  # puts "|                                           |"
+  # puts "*"*45
+  # puts "\n"*5
+  # abort
 end
 
 def spacing
@@ -154,7 +163,6 @@ def options
     when "6"
       find_top_3_gross
     when "7"
-
       get_movie_info_from_db_by_parental_rating
       spacing
       options
@@ -193,7 +201,7 @@ def search_api_for_movie(input) #number2
   if res["Error"]== "Movie not found!" || res["Response"] == "False"
     puts "Movie not found!"
     options
-  end 
+  end
   binding.pry
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
