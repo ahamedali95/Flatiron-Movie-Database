@@ -37,17 +37,6 @@ def print_list_commands_with_options
   options
 end
 
-# 3. Search movies by actor
-#
-# #Movie.joins(casts: :actor).where("actors.name = ?, 'Marlon Brando'")
-#
-# SELECT movies.name FROM movies
-# INNER JOIN casts
-# ON movies.id = movie_id
-# INNER JOIN actors
-# ON casts.actor_id = actors.id
-# WHERE actors.name = "hugh jackman"
-
 def sub_options
   puts "What would you like to do?"
   puts "A. See List of Movies."
@@ -182,6 +171,17 @@ def get_director_info_from_db
   end
 end
 
+# 3. Search movies by actor
+#
+# #Movie.joins(casts: :actor).where("actors.name = ?, 'Marlon Brando'")
+#
+# SELECT movies.name FROM movies
+# INNER JOIN casts
+# ON movies.id = movie_id
+# INNER JOIN actors
+# ON casts.actor_id = actors.id
+# WHERE actors.name = "hugh jackman"
+
 def get_top_three_movies_from_db
   movies = Movie.order("rating DESC")
   puts "1. #{movies[0].title} - #{movies[0].rating}"
@@ -200,7 +200,7 @@ end
 def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase
   movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
-  
+
   if movies == [] || movies == nil
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
@@ -223,6 +223,15 @@ def print_not_valid_option
   puts "Please try again: \n"
   puts "="*45
   sleep(2)
+end
+
+def print_studio_list
+  m = Movie.all.map do |movie|
+    movie.production
+  end.uniq
+  a = m.each_with_index do |prod, index|
+    puts "#{index+1}. #{prod}"
+  end
 end
 
 #RRR
