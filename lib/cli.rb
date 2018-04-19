@@ -53,9 +53,10 @@ def goodbye
   pastel = Pastel.new
 
   puts pastel.red(font.write(" Thank"))
-  puts pastel.red(font.write("            you"))
-  puts pastel.red(font.write("for stopping"))
-  puts pastel.red(font.write("            by!!"))
+  puts pastel.red(font.write("      you"))
+  puts pastel.red(font.write("      for"))
+  puts pastel.red(font.write("stopping"))
+  puts pastel.red(font.write("      by!!"))
   puts pastel.red(font.write("  GoodBye"))
 
   # puts "\n"*4
@@ -127,7 +128,6 @@ def directors_movies
             end
           end
       end
-
   end
 end #directors_movies
 
