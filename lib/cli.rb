@@ -209,6 +209,7 @@ end
 def get_movie_info_online(input)
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
+
   title = res["Title"]
   year = res["Year"].to_i
   rated = res["Rated"]
@@ -219,10 +220,18 @@ def get_movie_info_online(input)
   rating = res["imdbRating"].to_f
   !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
   !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
-  new_film = Movie.create(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
 
-  # new_film.each do |key, value|
-  #   puts key + ' : ' + value
+  new_film = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
+
+  new_dir = Director.find_or_create_by(name: director)
+  directed_movie_join = DirectedMovie.find_or_create_by(director_id: new_dir, movie_id: new_film)
+
+  actors = movie["Actors"].split(", ")
+    actors.each do |name|
+      actor = Actor.find_or_create_by(name: name)
+      cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
+
+  new_film.print_info
 end
 
 
@@ -331,9 +340,9 @@ def find_top_3_gross #6
     end
   result = sorted.reverse
 
-  puts "The highest grossing movie in our database is #{result[0].title}, which made $#{result[0].box_office} at the box office."
-  puts "The second-highest grossing movie in our database is #{result[1].title}, which made $#{result[1].box_office} at the box office."
-  puts "Finally, the third-highest grossing movie in our database is #{result[2].title}, which made $#{result[2].box_office} at the box office."
+  puts "1. #{result[0].title} - $#{result[0].box_office}"
+  puts "2. #{result[1].title} - $#{result[1].box_office}"
+  puts "3. #{result[2].title} - $#{result[2].box_office}"
 end
 
 def print_decade_example
@@ -388,8 +397,6 @@ def decade_by_year # 8. Search Movie by by decade"
     puts "\n"
     sleep(2)
   end
-
-
 end
 
   #DO NOT CALL RUN in here.
