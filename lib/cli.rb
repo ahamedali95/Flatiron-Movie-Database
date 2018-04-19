@@ -193,8 +193,8 @@ def search_api_for_movie(input) #number2
   if res["Error"]== "Movie not found!" || res["Response"] == "False"
     puts "Movie not found!"
     options
-  end 
-  binding.pry
+  end
+
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
