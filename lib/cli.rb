@@ -94,8 +94,6 @@ def print_directors_list
   Director.all.each do |direct|
     puts "#{direct.id}. #{direct.name}"
   end
-
-
 end
 
 def directors_movies
@@ -141,10 +139,12 @@ def options
       input = gets.chomp
       get_movie_info_online(input)
     when "3"
+      spacing
       get_actor_info_from_db
       puts "Please enter the actor's id: \n"
       input = gets.chomp
       get_movies_by_actor_id(input)
+      spacing
       options
     when "4"
       # 4. Search Movies by Director.
@@ -154,20 +154,23 @@ def options
       directors_movies
       # method(input)
     when "5"
+      spacing
       get_top_three_movies_from_db
-      sleep(3)
+      spacing
       options
     when "6"
       find_top_3_gross
       spacing
       # method created by M||A
-      sleep(3)
       options
     when "7"
+      spacing
       get_all_parental_ratings_from_db
+      puts "="*45
       puts "Please enter a rating: \n"
       input = gets.chomp
       get_movie_info_from_db_by_parental_rating(input)
+      options
     when "8"
 
       decade_by_year
@@ -179,8 +182,6 @@ def options
       input = gets.chomp.downcase
       goodbye if input == "e"
       studio_movies(input)
-      puts "$"*40
-      puts "="*40
       options
     else
       puts "Not a valid option. Please try again: \n".upcase
@@ -230,22 +231,24 @@ def get_movie_info_online(input)
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
       cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
-
+    end
   new_film.print_info
 end
 
 
 def get_movies_by_actor_id(actor_id)
-  sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
-  movies = Movie.joins(sql_statement)
+  actor_ids = Actor.select(:id).map do |actor_obj|
+    actor_obj.id.to_s
+  end
 
-  if movies.empty?
+  if actor_id.empty? || !actor_ids.include?(actor_id)
     get_actor_info_from_db
     puts "Invalid entry. Please enter a number from the list: "
     get_movies_by_actor_id(gets.chomp)
   else
     actor_name = Actor.find(actor_id).name
     puts "#{actor_name} is part of:"
+    movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}")
     movies.each do |movie_obj|
       puts movie_obj.title
     end
@@ -277,10 +280,10 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
     puts "Please try again: \n"
     get_movie_info_from_db_by_parental_rating(gets.chomp)
   else
+    spacing
     movies.each_with_index do |movie_obj, index|
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
     end
-    options
   end
 end
 
@@ -337,7 +340,7 @@ def find_top_3_gross #6
   }
   sorted = unsorted.sort_by do |movie|
     movie[:box_office].to_i
-    end
+  end
   result = sorted.reverse
 
   puts "1. #{result[0].title} - $#{result[0].box_office}"
@@ -403,6 +406,4 @@ end
   def run
     welcome
     options
-
-
   end
