@@ -71,11 +71,11 @@ end
 def print_one_list(input)
   case input
     when "a"
-      get_movie_info_from_db
+      print_movies_list
     when "b"
-      get_actor_info_from_db
+      print_actors_list
     when "c"
-      get_director_info_from_db
+      print_directors_list
     when "e"
       goodbye
     when "r"
@@ -135,38 +135,28 @@ def options
       input = gets.chomp
       get_movie_info_online(input)
     when "3"
-      spacing
-      get_actor_info_from_db
-      puts "Please enter the actor's id: \n"
-      input = gets.chomp
-      get_movies_by_actor_id(input)
-      spacing
-      options
+      print_actors_list
+      get_movies_by_actor_id
+      #Then that methods calls spacing and options methods for all cases after this
     when "4"
-      # 4. Search Movies by Director.
       spacing
       print_directors_list
       puts "\n"
       directors_movies
-      # method(input)
     when "5"
       get_top_three_movies_from_db
-      options
     when "6"
       find_top_3_gross
       spacing
-      # method created by M||A
       options
     when "7"
       get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
-      options
     when "8"
-
       get_movie_info_from_db_by_parental_rating
     when "8"
       decade_by_year
-    when "9" # 9. Search Movie by by Studio."
+    when "9"
       spacing
       print_studio_list
       puts "="*45
@@ -181,7 +171,7 @@ def options
   end
 end
 
-def get_movie_info_from_db
+def print_movies_list
   Movie.select(:id, :title).each do |movie_obj|
     puts "#{movie_obj.id}. #{movie_obj.title}"
   end
@@ -189,15 +179,13 @@ def get_movie_info_from_db
   options
 end
 
-def get_actor_info_from_db
+def print_actors_list
   Actor.select(:name, :id).each do |actor_obj|
     puts "#{actor_obj.id}. #{actor_obj.name}" if actor_obj.name != "N/A"
   end
-  spacing
-  options
 end
 
-def get_director_info_from_db
+def print_directors_list
   Director.select(:name, :id).each do |director_obj|
      puts "#{director_obj.id}. #{director_obj.name}" if director_obj.name != "N/A"
   end
@@ -237,23 +225,33 @@ binding.pry
 end
 
 
-def get_movies_by_actor_id(actor_id)
+def get_movies_by_actor_id
+  puts "*"*45
+  puts "\n"
+  puts "Please enter the actor's id: \n"
+  input = input_goodbye_return
+
   actor_ids = Actor.select(:id).map do |actor_obj|
     actor_obj.id.to_s
   end
 
-  if actor_id.empty? || !actor_ids.include?(actor_id)
-    get_actor_info_from_db
-    puts "Invalid entry. Please enter a number from the list: "
-    get_movies_by_actor_id(gets.chomp)
+  if input.empty? || !actor_ids.include?(input)
+    puts "This is not a valid option"
+    print_actors_list
+    puts "Please try again: \n"
+    get_movies_by_actor_id
   else
-    actor_name = Actor.find(actor_id).name
+    actor_name = Actor.find(input).name
+    puts "\n"
     puts "#{actor_name} is part of:"
-    movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}")
+
+    movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{input}")
     movies.each do |movie_obj|
       puts movie_obj.title
     end
   end
+  spacing
+  options
 end
 
 def get_top_three_movies_from_db
@@ -262,6 +260,7 @@ def get_top_three_movies_from_db
   puts "2. #{movies[1].title} - #{movies[1].rating}"
   puts "3. #{movies[2].title} - #{movies[2].rating}"
   spacing
+  options
 end
 
 def get_all_parental_ratings_from_db
@@ -281,13 +280,15 @@ def get_movie_info_from_db_by_parental_rating
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
-    get_movie_info_from_db_by_parental_rating
+    print_movies_list_by_parental_rating
   else
     spacing
     movies.each_with_index do |movie_obj, index|
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
     end
   end
+  spacing
+  options
 end
 
 def print_not_valid_option
