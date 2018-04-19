@@ -199,10 +199,8 @@ end
 
 def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase
-  #movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
   movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
-  #movies = Movie.select(:title, :id, :rated)
-  #binding.pry
+  
   if movies == [] || movies == nil
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
@@ -232,10 +230,6 @@ def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
   goodbye if input == "e"
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
-<<<<<<< HEAD
-
-=======
->>>>>>> d0572094d630c883bbfa0bd796eeef58c174201f
   case movies
     when []
       print_not_valid_option
