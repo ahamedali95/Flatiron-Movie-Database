@@ -42,30 +42,27 @@ def sub_options
   puts "A. See List of Movies."
   puts "B. See List of Actors."
   puts "C. See List of Directors.\n"
-  puts "**************************************"
+  puts "*"*45
   puts "Press (e) to EXIT!"
   puts "Press (r) to RETURN to Main Menu"
   input = gets.chomp.downcase
 end
 
 def goodbye
-  puts "\n"
-  puts "\n"
+  puts "\n"*4
   puts "*"*45
   puts "|                                           |"
   puts "|         Thank you for stopping bye!!      |".upcase
   puts "|                 GoodBye                   |".upcase
   puts "|                                           |"
   puts "*"*45
-  puts "\n"*3
+  puts "\n"*5
   abort
 end
 
 def spacing
-  puts "="*40
-  puts "\n"
-  puts "="*40
-  sleep(2)
+  equal_space_equal
+  sleep(1)
 end
 
 def print_one_list(input)
@@ -101,9 +98,8 @@ end
 def directors_movies
   puts "Please enter a directors number: \n"
   puts "Press (e) to Exit || (r) Return to Main Menu."
-  id = gets.chomp
-  goodbye if id =="e"
-  options if id =="r"
+  id = input_goodbye_return
+
   dm = DirectedMovie.all.where(director_id: id)
   case dm
     when "e"
@@ -157,8 +153,6 @@ def options
       options
     when "6"
       find_top_3_gross
-      spacing
-      options
     when "7"
       get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
@@ -166,8 +160,6 @@ def options
       options
     when "8"
       decade_by_year
-      spacing
-      options
     when "9" # 9. Search Movie by by Studio."
       spacing
       studio_movies
@@ -367,6 +359,7 @@ def studio_movies
 end
 
 def find_top_3_gross #6
+  equal_space_equal
   response = Movie.where.not(box_office: [nil, ""])
 
   unsorted = response.each {|movie|
@@ -381,6 +374,9 @@ def find_top_3_gross #6
   puts "2. #{result[1].title}  || Gross Amount:  $#{result[1].box_office}"
   puts "3. #{result[2].title}  || Gross Amount:  $#{result[2].box_office}"
 
+  spacing
+  sleep(3)
+  options
 
 end
 
@@ -438,6 +434,7 @@ def decade_by_year # 8. Search Movie by by decade"
     end
     puts "\n"
     sleep(2)
+    options
   end
 end
 
