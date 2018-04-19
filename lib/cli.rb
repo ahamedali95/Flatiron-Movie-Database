@@ -144,6 +144,7 @@ def options
       input = gets.chomp
       get_movie_info_online(input)
     when "3"
+      spacing
       get_actor_info_from_db
       puts "Please enter the actor's id: \n"
       input = gets.chomp
