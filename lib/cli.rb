@@ -133,7 +133,7 @@ def options
     when "2"
       puts "Please enter a movie title: \n"
       input = gets.chomp
-      get_movie_info_online(input)
+      search_api_for_movie(input)
     when "3"
       print_actors_list
       get_movies_by_actor_id
@@ -153,17 +153,16 @@ def options
       get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
     when "8"
-      get_movie_info_from_db_by_parental_rating
-    when "8"
       decade_by_year
-    when "9"
+      options
+    when "9" # 9. Search Movie by by Studio."
       spacing
       print_studio_list
       puts "="*45
       puts "Please enter a studio name: \n".upcase
-      input = gets.chomp.downcase
-      goodbye if input == "e"
-      studio_movies(input)
+      studio_movies
+      puts "$"*40
+      puts "="*40
       options
     else
       puts "Not a valid option. Please try again: \n".upcase
@@ -193,35 +192,63 @@ def print_directors_list
   options
 end
 
-def get_movie_info_online(input) #number2
+def search_api_for_movie(input) #number2
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
   check = Movie.find_by(title: res["Title"])
-binding.pry
+  # t = check.title.downcase
+  case check
+    when nil
+      title = res["Title"]
+      year = res["Year"].to_i
+      rated = res["Rated"]
+      released = res["Released"]
+      genre = res["Genre"]
+      director = res["Director"].split(",").first
+      cast = res["Actors"]
+      plot = res["Plot"]
+      rating = res["imdbRating"].to_f
+      !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
+      !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
+      d = Director.find_or_create_by(name: director)
+      m = Movie.find_or_create_by(
+        title: title,
+        year: year,
+        rated: rated,
+        released: released,
+        genre: genre,
+        plot: plot,
+        rating: rating,
+        box_office: box_office,
+        production: production)
 
-
-  title = res["Title"]
-  year = res["Year"].to_i
-  rated = res["Rated"]
-  released = res["Released"]
-  genre = res["Genre"]
-  director = res["Director"].split(",").first
-  plot = res["Plot"]
-  rating = res["imdbRating"].to_f
-  !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
-  !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
-
-  new_film = Movie.find_or_create_by(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
-
-  new_dir = Director.find_or_create_by(name: director)
-  directed_movie_join = DirectedMovie.find_or_create_by(director_id: new_dir, movie_id: new_film)
-
-  actors = movie["Actors"].split(", ")
-    actors.each do |name|
-      actor = Actor.find_or_create_by(name: name)
-      cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
-    end
-  new_film.print_info
+      directed_movie_join = DirectedMovie.find_or_create_by(director_id: d.id, movie_id: m.id)
+      actors = res["Actors"].split(", ")
+        actors.each do |name|
+          actor = Actor.find_or_create_by(name: name)
+          cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
+        end
+        spacing
+        puts "Title: #{title}"
+        puts "Year: #{year}"
+        puts "MPAA rating: #{rated}"
+        puts "Release date: #{released}"
+        puts "Genre: #{genre}"
+        puts "*"*45
+        puts "Director: #{director}"
+        puts "Starring: #{cast}"
+        puts "*"*45
+        puts "Synopsis: #{plot}"
+        puts "*"*45
+        puts "IMDB Rating: #{rating}"
+        puts "Box office gross: #{box_office}"
+        puts "Studio: #{production}"
+        spacing
+        sleep(2)
+        options
+      else
+        puts "#{check.title} is already in the database."
+      end
 end
 
 
