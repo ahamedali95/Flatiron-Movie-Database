@@ -210,6 +210,10 @@ end
 def get_movie_info_online(input)
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
+  check = Movie.find_by(title: res["Title"])
+binding.pry
+  # if check == [] || check == nil
+
 
   title = res["Title"]
   year = res["Year"].to_i
@@ -231,6 +235,8 @@ def get_movie_info_online(input)
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
       cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
+
+    end
 
   new_film.print_info
 end
