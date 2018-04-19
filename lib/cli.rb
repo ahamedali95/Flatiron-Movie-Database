@@ -173,16 +173,6 @@ def get_director_info_from_db
   end
 end
 
-# 3. Search movies by actor
-#
-# #Movie.joins(casts: :actor).where("actors.name = ?, 'Marlon Brando'")
-#
-# SELECT movies.name FROM movies
-# INNER JOIN casts
-# ON movies.id = movie_id
-# INNER JOIN actors
-# ON casts.actor_id = actors.id
-# WHERE actors.name = "hugh jackman"
 def get_movies_by_actor_id(actor_id)
   sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
   movies = Movie.joins(sql_statement)
