@@ -49,15 +49,24 @@ def sub_options
 end
 
 def goodbye
-  puts "\n"*4
-  puts "*"*45
-  puts "|                                           |"
-  puts "|         Thank you for stopping bye!!      |".upcase
-  puts "|                 GoodBye                   |".upcase
-  puts "|                                           |"
-  puts "*"*45
-  puts "\n"*5
-  abort
+  font = TTY::Font.new(:starwars)
+  pastel = Pastel.new
+
+  puts pastel.red(font.write(" Thank"))
+  puts pastel.red(font.write("            you"))
+  puts pastel.red(font.write("for stopping"))
+  puts pastel.red(font.write("            by!!"))
+  puts pastel.red(font.write("  GoodBye"))
+
+  # puts "\n"*4
+  # puts "*"*45
+  # puts "|                                           |"
+  # puts "|         Thank you for stopping bye!!      |".upcase
+  # puts "|                 GoodBye                   |".upcase
+  # puts "|                                           |"
+  # puts "*"*45
+  # puts "\n"*5
+  # abort
 end
 
 def spacing
@@ -154,7 +163,6 @@ def options
     when "6"
       find_top_3_gross
     when "7"
-      get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
       spacing
       options
@@ -246,6 +254,8 @@ def search_api_for_movie(input) #number2
         sleep(2)
         options
       else
+        puts "That movie is already in the database. \n
+        Here's some details about it:"
         equal_space_equal
         in_db = Movie.where("title LIKE (?)", "%#{input}%")
         in_db.each do |movie|
@@ -291,7 +301,6 @@ def get_movies_by_actor_id
     actor_name = Actor.find(input).name
     puts "\n"
     puts "#{actor_name} is part of:"
-
     movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{input}")
     movies.each do |movie_obj|
       puts movie_obj.title
@@ -306,26 +315,31 @@ def get_top_three_movies_from_db
   puts "3. #{movies[2].title} - #{movies[2].rating}"
 end
 
-def get_all_parental_ratings_from_db
+def print_parental_ratings_list
   Movie.select(:rated).map do |movie_obj|
     movie_obj.rated
   end.uniq.each do |parental_rating|
-    puts parental_rating
+    puts parental_rating if parental_rating != "N/A"
   end
 end
 
 def get_movie_info_from_db_by_parental_rating
+  print_parental_ratings_list
+  puts "Enter (e) to EXIT || (m) Return to Main Menu."
   puts "Please enter a rating: \n"
-  input = input_goodbye_return
+
+  input = gets.chomp
+  goodbye if input.downcase == "e"
+  options if input.downcase == "m"
   movies = Movie.where("rated LIKE ?", "%#{input}%")
 
   if movies.empty? || input.empty?
     puts "This is not a valid option"
-    get_all_parental_ratings_from_db
+    print_parental_ratings_list
     puts "Please try again: \n"
-    print_movies_list_by_parental_rating
+    get_movie_info_from_db_by_parental_rating
   else
-    spacing
+    equal_space_equal
     movies.each_with_index do |movie_obj, index|
       puts "#{index + 1}. #{movie_obj.title} - #{movie_obj.rated}"
     end
