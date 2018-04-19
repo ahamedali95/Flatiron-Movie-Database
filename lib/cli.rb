@@ -219,7 +219,7 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase
   movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
 
-  if movies == [] || movies == nil
+  if movies.empty?
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
