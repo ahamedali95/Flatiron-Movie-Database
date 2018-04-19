@@ -5,13 +5,15 @@ class Movie < ActiveRecord::Base
   has_many :directors, through: :directed_movie
 
 
+
   def print_info
     puts "Title: #{self.title}"
     puts "Year: #{self.year}"
     puts "MPAA rating: #{self.rated}"
     puts "Release date: #{self.released}"
     puts "Genre: #{self.genre}"
-    puts "Director: #{directors.name}"
+    puts "Director: #{WIP}"
+
     puts "Synopsis: #{self.plot}"
     puts "IMDB Rating: #{self.rating}"
     puts "Box office gross: #{self.box_office}"

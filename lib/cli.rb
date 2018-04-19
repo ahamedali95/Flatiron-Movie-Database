@@ -52,10 +52,12 @@ def goodbye
   puts "\n"
   puts "\n"
   puts "*"*45
+  puts "|                                           |"
   puts "|         Thank you for stopping bye!!      |".upcase
   puts "|                 GoodBye                   |".upcase
+  puts "|                                           |"
   puts "*"*45
-
+  puts "\n"*3
   abort
 end
 
@@ -168,20 +170,31 @@ def options
       get_all_parental_ratings_from_db
       puts "="*45
       puts "Please enter a rating: \n"
+<<<<<<< HEAD
       input = gets.chomp
       get_movie_info_from_db_by_parental_rating(input)
       options
     when "8"
+=======
+>>>>>>> 348e59b311d35181ba07c06efa5ed4585ff206f0
 
+      get_movie_info_from_db_by_parental_rating
+    when "8"
       decade_by_year
     when "9" # 9. Search Movie by by Studio."
       spacing
       print_studio_list
       puts "="*45
       puts "Please enter a studio name: \n".upcase
+<<<<<<< HEAD
       input = gets.chomp.downcase
       goodbye if input == "e"
       studio_movies(input)
+=======
+      studio_movies
+      puts "$"*40
+      puts "="*40
+>>>>>>> 348e59b311d35181ba07c06efa5ed4585ff206f0
       options
     else
       puts "Not a valid option. Please try again: \n".upcase
@@ -207,9 +220,12 @@ def get_director_info_from_db
   end
 end
 
-def get_movie_info_online(input)
+def get_movie_info_online(input) #number2
   req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
   res = JSON.parse(req)
+  check = Movie.find_by(title: res["Title"])
+binding.pry
+
 
   title = res["Title"]
   year = res["Year"].to_i
@@ -231,7 +247,13 @@ def get_movie_info_online(input)
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
       cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
+<<<<<<< HEAD
     end
+=======
+
+    end
+
+>>>>>>> 348e59b311d35181ba07c06efa5ed4585ff206f0
   new_film.print_info
 end
 
@@ -270,15 +292,15 @@ def get_all_parental_ratings_from_db
   end
 end
 
-def get_movie_info_from_db_by_parental_rating(p_rating)
-  formatted_rating = p_rating.downcase
-  movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
+def get_movie_info_from_db_by_parental_rating
+  input = input_goodbye_return
+  movies = Movie.where("rated LIKE ?", "%#{input}%")
 
   if movies.empty? || p_rating.empty?
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
-    get_movie_info_from_db_by_parental_rating(gets.chomp)
+    get_movie_info_from_db_by_parental_rating
   else
     spacing
     movies.each_with_index do |movie_obj, index|
@@ -308,17 +330,15 @@ def print_studio_list
 end
 
 #RRR
-def studio_movies(input)
-  # input = input.split.map(&:capitalize).join(' ')
-  goodbye if input == "e"
+def studio_movies
+  input = input_goodbye_return
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   case movies
     when [] || nil
       print_not_valid_option
       print_studio_list
       puts "Please type a name from the list: "
-      input = gets.chomp
-      studio_movies(input)
+      studio_movies
 
     else
       puts "*"*45
@@ -342,10 +362,12 @@ def find_top_3_gross #6
     movie[:box_office].to_i
   end
   result = sorted.reverse
+  puts "The following are the top 3 grossing movies within our database: "
+  puts "1. #{result[0].title}  || Gross Amount:  $#{result[0].box_office}"
+  puts "2. #{result[1].title}  || Gross Amount:  $#{result[1].box_office}"
+  puts "3. #{result[2].title}  || Gross Amount:  $#{result[2].box_office}"
 
-  puts "1. #{result[0].title} - $#{result[0].box_office}"
-  puts "2. #{result[1].title} - $#{result[1].box_office}"
-  puts "3. #{result[2].title} - $#{result[2].box_office}"
+
 end
 
 def print_decade_example
@@ -362,16 +384,22 @@ def print_decade_example
   #goes to decade by year method
 end
 
-def not_valid_length
+def not_valid_length #part of 8
   puts "Not a valid length.\n"
   decade_by_year
 end
 
-def decade_by_year # 8. Search Movie by by decade"
-  print_decade_example
+def input_goodbye_return
   input = gets.chomp
   goodbye if input == "e"
   options if input == "r"
+  input
+end
+
+def decade_by_year # 8. Search Movie by by decade"
+  print_decade_example
+  input = input_goodbye_return
+  binding.pry
   not_valid_length if input.length < 4 && input.length > 4
   array1 = input.split("")
   array2 = input.split("")
