@@ -108,9 +108,11 @@ def options
       input = gets.chomp
       get_movie_info_online(input)
     when "3"
-      puts "Please enter an actors name: \n"
+      get_actor_info_from_db
+      puts "Please enter the actor's id: \n"
       input = gets.chomp
-      #A method
+      get_movies_by_actor_id(input)
+      print_list_commands_with_options
     when "4"
       puts "Please enter a directors name: \n"
       input = gets.chomp
@@ -202,6 +204,22 @@ end
 # INNER JOIN actors
 # ON casts.actor_id = actors.id
 # WHERE actors.name = "hugh jackman"
+def get_movies_by_actor_id(actor_id)
+  sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
+  movies = Movie.joins(sql_statement)
+
+  if movies.empty?
+    get_actor_info_from_db
+    puts "Invalid entry. Please enter a number from the list: "
+    get_movies_by_actor_id(gets.chomp)
+  else
+    actor_name = Actor.find(actor_id).name
+    puts "#{actor_name} is part of:"
+    movies.each do |movie_obj|
+      puts movie_obj.title
+    end
+  end
+end
 
 def get_top_three_movies_from_db
   movies = Movie.order("rating DESC")
@@ -222,7 +240,7 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
   formatted_rating = p_rating.downcase
   movies = Movie.where("rated LIKE ?", "%#{formatted_rating}%")
 
-  if movies == [] || movies == nil
+  if movies.empty? || p_rating.empty?
     puts "This is not a valid option"
     get_all_parental_ratings_from_db
     puts "Please try again: \n"
@@ -261,19 +279,13 @@ def studio_movies(input)
   goodbye if input == "e"
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
   case movies
-    when []
+    when [] || nil
       print_not_valid_option
       print_studio_list
       puts "Please type a name from the list: "
       input = gets.chomp
       studio_movies(input)
 
-    when nil
-      print_not_valid_option
-      print_studio_list
-      puts "Please type a name from the list: "
-      input = gets.chomp
-      studio_movies(input)
     else
       puts "*"*45
       puts "\n"

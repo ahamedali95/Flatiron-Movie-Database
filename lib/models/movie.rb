@@ -4,4 +4,9 @@ class Movie < ActiveRecord::Base
   has_many :actors, through: :casts #:casts, through: :actors
   has_many :directors, through: :movies_directed
 
+  def print_info
+    puts
+
+  end
+
 end
