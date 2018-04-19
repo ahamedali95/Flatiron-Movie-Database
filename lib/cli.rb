@@ -1,12 +1,24 @@
 require_relative "../config/environment.rb"
+gem "tty-font"
 
 def welcome
-  puts "*"*45
-  puts "|                                     |"
-  puts "|       Welcometo Flatiron Movie      |".upcase
-  puts "|           Database Search           |".upcase
-  puts "|                                     |"
-  puts "="*45
+  font = TTY::Font.new(:starwars)
+  pastel = Pastel.new
+
+
+  puts pastel.red(font.write("  WELCOME"))
+  puts pastel.red(font.write("                       TO"))
+  puts pastel.red(font.write("FLATIRON"))
+  puts pastel.red(font.write("           MOVIE"))
+
+  puts pastel.red(font.write("DATABASE"))
+  puts pastel.red(font.write("                       CLI"))
+  # puts "*"*45
+  # puts "|                                     |"
+  # puts "|       Welcometo Flatiron Movie      |".upcase
+  # puts "|           Database Search           |".upcase
+  # puts "|                                     |"
+  # puts "="*45
 end
 
 def print_list_commands_with_options
@@ -36,13 +48,6 @@ end
 # ON casts.actor_id = actors.id
 # WHERE actors.name = "hugh jackman"
 
-def get_top_three_movies_from_db
-  movies = Movie.order("rating DESC")
-  puts "1. #{movies[0].title} - #{movies[0].rating}"
-  puts "2. #{movies[1].title} - #{movies[1].rating}"
-  puts "3. #{movies[2].title} - #{movies[2].rating}"
-end
-
 def sub_options
   puts "What would you like to do?"
   puts "A. See List of Movies."
@@ -55,8 +60,13 @@ def sub_options
 end
 
 def goodbye
-  puts "Thank you for stopping bye!!"
-  puts "GoodBye"
+  puts "\n"
+  puts "\n"
+  puts "*"*45
+  puts "|       Thank you for stopping by!!      |".upcase
+  puts "|                GoodBye                   |".upcase
+  puts "*"*45
+
   abort
 end
 
@@ -172,6 +182,13 @@ def get_director_info_from_db
   end
 end
 
+def get_top_three_movies_from_db
+  movies = Movie.order("rating DESC")
+  puts "1. #{movies[0].title} - #{movies[0].rating}"
+  puts "2. #{movies[1].title} - #{movies[1].rating}"
+  puts "3. #{movies[2].title} - #{movies[2].rating}"
+end
+
 def get_all_parental_ratings_from_db
   Movie.select(:rated).map do |movie_obj|
     movie_obj.rated
@@ -198,27 +215,43 @@ def get_movie_info_from_db_by_parental_rating(p_rating)
     print_list_commands_with_options
   end
 end
+
+def print_not_valid_option
+  puts "="*45
+  puts "\n"
+  puts "\n"
+  puts "="*45
+  puts "Not a valid option.".upcase
+  puts "Please try again: \n"
+  puts "="*45
+  sleep(2)
+end
+
 #RRR
 def studio_movies(input)
   # input = input.split.map(&:capitalize).join(' ')
+  goodbye if input == "e"
   movies = Movie.all.where("production LIKE ?", "%#{input}%")
+<<<<<<< HEAD
 
+=======
+>>>>>>> d0572094d630c883bbfa0bd796eeef58c174201f
   case movies
     when []
-      puts "That is not a valid option"
-      puts "Please try again: \n"
+      print_not_valid_option
       print_studio_list
+      puts "Please type a name from the list: "
       input = gets.chomp
       studio_movies(input)
+
     when nil
-      puts "That is not a valid option"
-      puts "Please try again: \n"
+      print_not_valid_option
       print_studio_list
+      puts "Please type a name from the list: "
       input = gets.chomp
       studio_movies(input)
     else
       puts "*"*45
-      puts "test"
       puts "\n"
       movies.each_with_index do |movie, index|
         puts " #{index+1}. #{movie.title}"
@@ -235,12 +268,12 @@ def find_top_3_gross #6
   unsorted = response.each {|movie|
     movie.box_office = movie.box_office.gsub(/[^0-9 ]/i, '').to_i
   }
-binding.pry
   sorted = unsorted.sort_by do |movie|
     movie[:box_office].to_i
     end
   result = sorted.reverse
-  binding.pry
+  # make sure to add the amount they grossed box office.
+  #make it look nice.
   puts result[0].title
   puts result[1].title
   puts result[2].title
@@ -250,7 +283,7 @@ def print_decade_example
   puts "\n"
   puts "\n"
   puts "*"*45
-  puts "Please enter a decade: \n".upcase
+  puts "Please enter a year: \n".upcase
 
   puts "Enter a year and we will return \n"
   puts "any movies found within that decade.\n"
@@ -259,18 +292,46 @@ def print_decade_example
   input = gets.chomp
 end
 
+def not_valid_length
+  puts "Not a valid length.\n"
+  input = print_decade_example
+  decade_by_year(input)
+end
+
 def decade_by_year(input) # 8. Search Movie by by decade"
-  binding.pry
-  if input.length < 4
-    puts "Please enter the decade in 4-digit format, i.e. '1980s.''"
-    binding.pry
-  else
-  range_min = input.gsub(/[^0-9 ]/i, '').to_i
-  range_max = range_min + 9
-  binding.pry
-  result = Movie.scoped(:conditions => { :year => range_min...range_max })
+  goodbye if input == "e"
+  not_valid_length if input.length < 4
+  array1 = input.split("")
+  array2 = input.split("")
+  array1[3] = "0"
+  array2[3] = "9"
+  zero = array1.join.to_i
+  nine = array2.join.to_i
+  results = Movie.all.where(
+  "year > ? AND year < ?", zero, nine)
+  case results
+    when []
+      puts "No Movies found for that year."
+      puts "Please try again: \n"
+      input = print_decade_example
+      decade_by_year(input)
+    when nil
+      puts "No Movies found for that year."
+      puts "Please try again: \n"
+      input = print_decade_example
+      decade_by_year(input)
+    else
+      puts "*"*45
+      puts "\n"
+      puts " YEAR RELEASED  ||    TITLE             |"
+      results.each_with_index do |movie, index|
+        puts " #{index+1}. #{movie.year} #{movie.title}"
+    end
+    puts "\n"
+    sleep(2)
   end
-  puts result
+
+
 end
 
   #DO NOT CALL RUN in here.

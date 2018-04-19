@@ -6,5 +6,7 @@ gem "sqlite3"
 gem "pry"
 gem "json"
 gem "rest-client"
+gem "tty"
+gem "tty-font"
 
 gem "require_all"
