@@ -153,7 +153,6 @@ def options
       options
     when "6"
       find_top_3_gross
-
     when "7"
       get_all_parental_ratings_from_db
       get_movie_info_from_db_by_parental_rating
