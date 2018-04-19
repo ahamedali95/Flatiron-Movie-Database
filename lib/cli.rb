@@ -229,6 +229,7 @@ def get_movie_info_online(input)
     actors.each do |name|
       actor = Actor.find_or_create_by(name: name)
       cast_join = Cast.find_or_create_by(actor_id: actor.id, movie_id: m.id)
+    end
 
   new_film.print_info
 end
@@ -367,11 +368,13 @@ def input_goodbye_return
   input = gets.chomp
   goodbye if input == "e"
   options if input == "r"
+  input
 end
 
 def decade_by_year # 8. Search Movie by by decade"
   print_decade_example
   input = input_goodbye_return
+  binding.pry
   not_valid_length if input.length < 4 && input.length > 4
   array1 = input.split("")
   array2 = input.split("")
