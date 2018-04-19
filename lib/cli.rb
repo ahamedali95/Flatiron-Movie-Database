@@ -142,8 +142,7 @@ def options
     when "2"
       puts "Please enter a movie title: \n"
       input = gets.chomp
-
-      #get_movie_info_from_db
+      get_movie_info_online(input)
     when "3"
       get_actor_info_from_db
       puts "Please enter the actor's id: \n"
@@ -212,6 +211,38 @@ def get_director_info_from_db
   end
 end
 
+def get_movie_info_online(input)
+  req = RestClient.get("http://www.omdbapi.com/?t=#{input}&apikey=485b50f7")
+  res = JSON.parse(req)
+  title = res["Title"]
+  year = res["Year"].to_i
+  rated = res["Rated"]
+  released = res["Released"]
+  genre = res["Genre"]
+  director = res["Director"].split(",").first
+  plot = res["Plot"]
+  rating = res["imdbRating"].to_f
+  !res["BoxOffice"] == nil? ? box_office = res["BoxOffice"] : box_office = "N/A"
+  !res["Production"] == nil? ? production = res["Production"].gsub(/[^A-Za-z 0-9]/, "") : production = "other"
+  new_film = Movie.create(title: title, year: year, rated: rated, released: released, genre: genre, plot: plot, rating: rating, box_office: box_office, production: production)
+
+  # new_film.each do |key, value|
+  #   puts key + ' : ' + value
+end
+
+  #This should work, but for some reason I can't call .each on new_film. -MDT
+
+
+# 3. Search movies by actor
+#
+# #Movie.joins(casts: :actor).where("actors.name = ?, 'Marlon Brando'")
+#
+# SELECT movies.name FROM movies
+# INNER JOIN casts
+# ON movies.id = movie_id
+# INNER JOIN actors
+# ON casts.actor_id = actors.id
+# WHERE actors.name = "hugh jackman"
 def get_movies_by_actor_id(actor_id)
   sql_statement = "INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{actor_id}"
   movies = Movie.joins(sql_statement)
@@ -316,11 +347,10 @@ def find_top_3_gross #6
     movie[:box_office].to_i
     end
   result = sorted.reverse
-  # make sure to add the amount they grossed box office.
-  #make it look nice.
-  puts result[0].title
-  puts result[1].title
-  puts result[2].title
+
+  puts "The highest grossing movie in our database is #{result[0].title}, which made $#{result[0].box_office} at the box office."
+  puts "The second-highest grossing movie in our database is #{result[1].title}, which made $#{result[1].box_office} at the box office."
+  puts "Finally, the third-highest grossing movie in our database is #{result[2].title}, which made $#{result[2].box_office} at the box office."
 end
 
 def print_decade_example
@@ -385,3 +415,4 @@ end
 
 
   end
+end
