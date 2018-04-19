@@ -283,7 +283,6 @@ def get_movies_by_actor_id
     actor_name = Actor.find(input).name
     puts "\n"
     puts "#{actor_name} is part of:"
-
     movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{input}")
     movies.each do |movie_obj|
       puts movie_obj.title
@@ -320,7 +319,7 @@ def get_movie_info_from_db_by_parental_rating
     puts "This is not a valid option"
     print_parental_ratings_list
     puts "Please try again: \n"
-    print_movies_list_by_parental_rating
+    get_movie_info_from_db_by_parental_rating
   else
     equal_space_equal
     movies.each_with_index do |movie_obj, index|
