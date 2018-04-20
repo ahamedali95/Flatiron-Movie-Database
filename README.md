@@ -1,49 +1,54 @@
-# Module One Final Project Guidelines
+# Flatiron Movie Database CLI Program - Data Analytics Project
 
-Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
+This program is a Ruby command line interface program built to query information about movies. It utilizes the OMDB API to query movie details based on an user's search term and stores the collected data in a SQLite3 database. The data records are then accessed through ActiveRecord and converted to Ruby objects before displaying results to the user. This program implements the core concept of relational database as a foundation to relate data to one another so that information can be efficiently retrieved. The relationships are formed using ActiveRecord associations. This program also utilizes Rake tool to effectively manage the database changes(migration, seed, rollback, etc..).
 
-For your final project, we'll be building a Command Line database application.
+#Entity Relationship Diagram:
+![alt tag](https://drive.google.com/file/d/173l1AWUPLUUMk4AaPpaDqtAAGk_GnAKr/view?usp=sharing)
 
-## Project Requirements
+#Database Schema:
+directors:
+	1. id - primary key field
+	2. name
+directed_movies:
+	1. id - primary key field
+	2. director_id - foreign key field references the primary key field of id in directors
+	3. movie_id - foreign key field references the primary key field of id in movies
+movies:
+	1. id - primary key field
+	2. title
+	3. year
+	4. rated
+	5. released ...
+casts:
+	1. id - primary key field
+	2. movie_id - foreign key field references the primary key field of id in movies
+	3. actor_id - foreign key field references the primary key field of id in actors
+actors:
+	1. id - primary key field
+	2. name
 
-### Option One - Data Analytics Project
+#Query Operations:
+		1a. See Available movies within database
+				-queries all the movie titles from the database
+			b. See available actors.
+				-queries all the actors from the database
+			c. See available directors.
+				-queries all the directors from the database
+		2. Search available movies online
+		    	-queries the movie from the existing database, if found, displays the information. If not, the program makes an API to get the information and seed it to the database
+		3. Search movies by actor
+				  -queries all the actors from the database and gives the user the option to get a list all movies that casts a particular actor provided by the user
+		4. Search movies by director
+				 -queries all the directors from the database and gives the user the option to get a list all movies directed by a particular director provided by the user
+		6. Top 3 rated movies within our current database.
+				 -queries all the movie titles and IMDB ratings of top three movies from the database
+		7. Top 3 Box Office movies within db
+				  -queries all the movie titles and box office collection of top three movies from the database
+		8. Find movies by MPAA Rating
+		          -queries all the parental ratings from the database and gives the user the option to get all movies based on a rating provided by the user.
+		9. Look up movie by decade
+		          -	queries all movies that are released in a decade provided by the user
+		10. Look up movies by studio
+		         -queries all the studios from the database and gives the user the option to get all movies based on a studio name provided by the user
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have at minimum three models including one join model. This means you must have a many-to-many relationship.
-3. You should seed your database using data that you collect either from a CSV, a website by scraping, or an API.
-4. Your models should have methods that answer interesting questions about the data. For example, if you've collected info about movie reviews, what is the most popular movie? What movie has the most reviews?
-5. You should provide a CLI to display the return values of your interesting methods.  
-6. Use good OO design patterns. You should have separate classes for your models and CLI interface.
-
-### Option Two - Command Line CRUD App
-
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have a minimum of three models.
-3. You should build out a CLI to give your user full CRUD ability for at least one of your resources. For example, build out a command line To-Do list. A user should be able to create a new to-do, see all todos, update a todo item, and delete a todo. Todos can be grouped into categories, so that a to-do has many categories and categories have many to-dos.
-4. Use good OO design patterns. You should have separate models for your runner and CLI interface.
-
-### Brainstorming and Proposing a Project Idea
-
-Projects need to be approved prior to launching into them, so take some time to brainstorm project options that will fulfill the requirements above.  You must have a minimum of four [user stories](https://en.wikipedia.org/wiki/User_story) to help explain how a user will interact with your app.  A user story should follow the general structure of `"As a <role>, I want <goal/desire> so that <benefit>"`. In example, if we were creating an app to randomly choose nearby restaurants on Yelp, we might write:
-
-* As a user, I want to be able to enter my name to retrieve my records
-* As a user, I want to enter a location and be given a random nearby restaurant suggestion
-* As a user, I should be able to reject a suggestion and not see that restaurant suggestion again
-* As a user, I want to be able to save to and retrieve a list of favorite restaurant suggestions
-
-## Instructions
-
-1. Fork and clone this repository.
-2. Build your application. Make sure to commit early and commit often. Commit messages should be meaningful (clearly describe what you're doing in the commit) and accurate (there should be nothing in the commit that doesn't match the description in the commit message). Good rule of thumb is to commit every 3-7 mins of actual coding time. Most of your commits should have under 15 lines of code and a 2 line commit is perfectly acceptable.
-3. Make sure to create a good README.md with a short description, install instructions, a contributors guide and a link to the license for your code.
-4. Make sure your project checks off each of the above requirements.
-5. Prepare a video demo (narration helps!) describing how a user would interact with your working project.
-    * The video should:
-      - Have an overview of your project.(2 minutes max)
-6. Prepare a presentation to follow your video.(3 minutes max)
-    * Your presentation should:
-      - Describe something you struggled to build, and show us how you ultimately implemented it in your code.
-      - Discuss 3 things you learned in the process of working on this project.
-      - Address, if anything, what you would change or add to what you have today?
-      - Present any code you would like to highlight.   
-7. *OPTIONAL, BUT RECOMMENDED*: Write a blog post about the project and process.
+--Note: Since OMDB API allows to make a query using only movie title, a short list of movies' information are pre-seeded to the database so that the user can query the movie information from the existing database as well as query a movie that is not currently in the database by only movie title. Any movie that is newly queried will be automatically seeded in to the database.
