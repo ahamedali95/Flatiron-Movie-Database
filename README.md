@@ -52,4 +52,4 @@ This program is a Ruby command line interface program built to query information
 		10. Look up movies by studio
 		         -queries all the studios from the database and gives the user the option to get all movies based on a studio name provided by the user
 
---Note: Since OMDB API allows to make a query using only movie title, a short list of movies' information are pre-seeded to the database so that the user can query the movie information from the existing database as well as query a movie that is not currently in the database by only movie title. Any movie that is newly queried will be automatically seeded in to the database.
+**Note: Since OMDB API allows to make a query using only movie title, a short list of movies' information are pre-seeded to the database so that the user can query the movie information from the existing database as well as query a movie that is not currently in the database by only movie title. Any movie that is newly queried will be automatically seeded in to the database.**
