@@ -38,13 +38,13 @@ This program is a Ruby command line interface program built to query information
 		2. Search available movies online
 		    	-queries the movie from the existing database, if found, displays the information. If not, the program makes an API to get the information and seed it to the database
 		3. Search movies by actor
-				-queries all the actors from the database and gives the user the option to get a list all movies that casts a particular actor provided by the user
+		-queries all the actors from the database and gives the user the option to get a list all movies that casts a particular actor provided by the user
 		4. Search movies by director
 			  -queries all the directors from the database and gives the user the option to get a list all movies directed by a particular director provided by the user
 		6. Top 3 rated movies within our current database.
 			-queries all the movie titles and IMDB ratings of top three movies from the database
 		7. Top 3 Box Office movies within db
-				  -queries all the movie titles and box office collection of top three movies from the database
+		-queries all the movie titles and box office collection of top three movies from the database
 		8. Find movies by MPAA Rating
 		      -queries all the parental ratings from the database and gives the user the option to get all movies based on a rating provided by the user.
 		9. Look up movie by decade
