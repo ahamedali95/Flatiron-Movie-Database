@@ -5,21 +5,18 @@ def welcome
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-<<<<<<< HEAD
-  puts pastel.red(font.write("  WELCOME"))
-  puts pastel.red(font.write("                       TO"))
-  puts pastel.red(font.write("FLATIRON"))
-  puts pastel.red(font.write("           MOVIE"))
-
-  puts pastel.red(font.write("DATABASE"))
-  puts pastel.red(font.write("                       CLI"))
-=======
+  # puts pastel.red(font.write("  WELCOME"))
+  # puts pastel.red(font.write("                       TO"))
+  # puts pastel.red(font.write("FLATIRON"))
+  # puts pastel.red(font.write("           MOVIE"))
+  #
+  # puts pastel.red(font.write("DATABASE"))
+  # puts pastel.red(font.write("                       CLI"))
 
   puts pastel.red(font.write("  WELCOME    TO"))
   puts pastel.red(font.write("            FLATIRON"))
   puts pastel.red(font.write("          DATABASE"))
   puts pastel.red(font.write("              MOVIE           CLI"))
->>>>>>> d92b77e59605d7c173d9a0bf35de615a34b8349f
   # puts "*"*45
   # puts "|                                     |"
   # puts "|       Welcometo Flatiron Movie      |".upcase
@@ -59,7 +56,9 @@ def goodbye
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-  puts pastel.red(font.write(" Thank   you   for"))
+  puts pastel.red(font.write(" Thank   you"))
+  puts pastel.red(font.write(" for"))
+
   puts pastel.red(font.write("  stopping           bye!!"))
   puts pastel.red(font.write("          GoodBye"))
   abort
