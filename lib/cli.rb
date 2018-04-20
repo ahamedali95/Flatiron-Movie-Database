@@ -5,6 +5,7 @@ def welcome
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
+<<<<<<< HEAD
   puts pastel.red(font.write("  WELCOME"))
   puts pastel.red(font.write("                       TO"))
   puts pastel.red(font.write("FLATIRON"))
@@ -12,6 +13,13 @@ def welcome
 
   puts pastel.red(font.write("DATABASE"))
   puts pastel.red(font.write("                       CLI"))
+=======
+
+  puts pastel.red(font.write("  WELCOME    TO"))
+  puts pastel.red(font.write("            FLATIRON"))
+  puts pastel.red(font.write("          DATABASE"))
+  puts pastel.red(font.write("              MOVIE           CLI"))
+>>>>>>> d92b77e59605d7c173d9a0bf35de615a34b8349f
   # puts "*"*45
   # puts "|                                     |"
   # puts "|       Welcometo Flatiron Movie      |".upcase
@@ -51,13 +59,10 @@ def goodbye
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-  puts pastel.red(font.write(" Thank"))
-  puts pastel.red(font.write("      you"))
-  puts pastel.red(font.write("      for"))
-  puts pastel.red(font.write("stopping"))
-  puts pastel.red(font.write("      by!!"))
-  puts pastel.red(font.write("  GoodBye"))
-
+  puts pastel.red(font.write(" Thank   you   for"))
+  puts pastel.red(font.write("  stopping           bye!!"))
+  puts pastel.red(font.write("          GoodBye"))
+  abort
   # puts "\n"*4
   # puts "*"*45
   # puts "|                                           |"
@@ -105,27 +110,28 @@ def print_directors_list
 end
 
 def directors_movies
+  spacing
+  print_directors_list
+  puts "\n"
   puts "Please enter a directors number: \n"
   puts "Press (e) to Exit || (r) Return to Main Menu."
   id = input_goodbye_return
 
   dm = DirectedMovie.all.where(director_id: id)
   case dm
-    when "e"
-      goodbye
-    when "r"
-      options
     when []
       puts print_not_valid_option
-      print_directors_list
       directors_movies
     else
+      equal_space_equal
       dm.each do |mov|
           Movie.all.each_with_index do |join, index|
             if mov.movie_id == join.id
               puts "#{index +1}. #{join.title}"
             end
           end
+          equal_space_equal
+          options
       end
   end
 end #directors_movies
@@ -147,18 +153,15 @@ def options
     when "3"
       print_actors_list
       get_movies_by_actor_id
-      spacing
-      options
+
       #Then that methods calls spacing and options methods for all cases after this
     when "4"
-      spacing
-      print_directors_list
-      puts "\n"
+
       directors_movies
     when "5"
       get_top_three_movies_from_db
-      spacing
-      options
+
+
     when "6"
       find_top_3_gross
     when "7"
@@ -201,7 +204,10 @@ def search_api_for_movie(input) #number2
     puts "Movie not found!"
     options
   end
+<<<<<<< HEAD
+=======
 
+>>>>>>> 257204d74758d1c75f22ce2f3c35712fefcb3f38
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
@@ -264,18 +270,27 @@ def search_api_for_movie(input) #number2
           puts "Release date: #{movie.released}"
           puts "Genre(s): #{movie.genre}"
           puts "*"*45
+          puts "Director: #{   Movie.where({title: movie.title}).first.directors.first.name}"
+          puts "Cast: #{ Movie.where({title: movie.title}).first1.actors.each {|actor| puts actor.name}}"
           puts "Synopsis: #{movie.plot}"
           puts "*"*45
           puts "IMDB rating: #{movie.rating}"
           puts "Box office gross: #{movie.box_office}"
           puts "Studio: #{movie.production}"
-          equal_space_equal
         end
         equal_space_equal
         sleep(3)
         options
       end
 end
+
+# SELECT name FROM directors INNER JOIN directed_movies ON director_id = directors.id INNER JOIN movies ON movie_id = movie.id WHERE director_id = director.id && movie_id = in_db.id
+
+
+
+
+
+
 
 # To-dos:
 # 1. getting actor and director to work with the last else statement
@@ -298,13 +313,17 @@ def get_movies_by_actor_id
     get_movies_by_actor_id
   else
     actor_name = Actor.find(input).name
+    equal_space_equal
     puts "\n"
     puts "#{actor_name} is part of:"
     movies = Movie.joins("INNER JOIN casts on movies.id = casts.movie_id AND casts.actor_id = #{input}")
     movies.each do |movie_obj|
       puts movie_obj.title
     end
+    spacing
+    options
   end
+
 end
 
 def get_top_three_movies_from_db
@@ -312,6 +331,9 @@ def get_top_three_movies_from_db
   puts "1. #{movies[0].title} - #{movies[0].rating}"
   puts "2. #{movies[1].title} - #{movies[1].rating}"
   puts "3. #{movies[2].title} - #{movies[2].rating}"
+  spacing
+  sleep(4)
+  options
 end
 
 def print_parental_ratings_list
