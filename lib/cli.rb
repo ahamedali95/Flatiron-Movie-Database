@@ -5,21 +5,11 @@ def welcome
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-<<<<<<< HEAD
-  puts pastel.red(font.write("  WELCOME"))
-  puts pastel.red(font.write("                       TO"))
-  puts pastel.red(font.write("FLATIRON"))
-  puts pastel.red(font.write("           MOVIE"))
-
-  puts pastel.red(font.write("DATABASE"))
-  puts pastel.red(font.write("                       CLI"))
-=======
 
   puts pastel.red(font.write("  WELCOME    TO"))
   puts pastel.red(font.write("            FLATIRON"))
   puts pastel.red(font.write("          DATABASE"))
   puts pastel.red(font.write("              MOVIE           CLI"))
->>>>>>> d92b77e59605d7c173d9a0bf35de615a34b8349f
   # puts "*"*45
   # puts "|                                     |"
   # puts "|       Welcometo Flatiron Movie      |".upcase
@@ -204,10 +194,6 @@ def search_api_for_movie(input) #number2
     puts "Movie not found!"
     options
   end
-<<<<<<< HEAD
-=======
-
->>>>>>> 257204d74758d1c75f22ce2f3c35712fefcb3f38
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check

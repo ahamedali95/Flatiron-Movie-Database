@@ -46,10 +46,10 @@ This program is a Ruby command line interface program built to query information
 		7. Top 3 Box Office movies within db
 				  -queries all the movie titles and box office collection of top three movies from the database
 		8. Find movies by MPAA Rating
-		          -queries all the parental ratings from the database and gives the user the option to get all movies based on a rating provided by the user.
+		      -queries all the parental ratings from the database and gives the user the option to get all movies based on a rating provided by the user.
 		9. Look up movie by decade
-		          -	queries all movies that are released in a decade provided by the user
+		      -queries all movies that are released in a decade provided by the user
 		10. Look up movies by studio
-		         -queries all the studios from the database and gives the user the option to get all movies based on a studio name provided by the user
+		      -queries all the studios from the database and gives the user the option to get all movies based on a studio name provided by the user
 
 --Note: Since OMDB API allows to make a query using only movie title, a short list of movies' information are pre-seeded to the database so that the user can query the movie information from the existing database as well as query a movie that is not currently in the database by only movie title. Any movie that is newly queried will be automatically seeded in to the database.
