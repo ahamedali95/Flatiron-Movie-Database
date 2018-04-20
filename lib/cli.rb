@@ -5,13 +5,6 @@ def welcome
   font = TTY::Font.new(:starwars)
   pastel = Pastel.new
 
-  # puts pastel.red(font.write("  WELCOME"))
-  # puts pastel.red(font.write("                       TO"))
-  # puts pastel.red(font.write("FLATIRON"))
-  # puts pastel.red(font.write("           MOVIE"))
-  #
-  # puts pastel.red(font.write("DATABASE"))
-  # puts pastel.red(font.write("                       CLI"))
 
   puts pastel.red(font.write("  WELCOME    TO"))
   puts pastel.red(font.write("            FLATIRON"))
