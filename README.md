@@ -3,7 +3,8 @@
 This program is a Ruby command line interface program built to query information about movies. It utilizes the OMDB API to query movie details based on an user's search term and stores the collected data in a SQLite3 database. The data records are then accessed through ActiveRecord and converted to Ruby objects before displaying results to the user. This program implements the core concept of relational database as a foundation to relate data to one another so that information can be efficiently retrieved. The relationships are formed using ActiveRecord associations. This program also utilizes Rake tool to effectively manage the database changes(migration, seed, rollback, etc..).
 
 ## Entity Relationship Diagram:
-![alt tag](https://imgur.com/a/3IFyA3G)
+![untitled diagram xml draw io](https://user-images.githubusercontent.com/24445922/39028854-e55e380c-4426-11e8-88cf-d2ab005d6b76.png)
+
 
 ## Database Schema:
 ### directors:  <br />
