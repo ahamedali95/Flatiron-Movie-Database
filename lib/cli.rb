@@ -194,10 +194,6 @@ def search_api_for_movie(input) #number2
     puts "Movie not found!"
     options
   end
-<<<<<<< HEAD
-=======
-
->>>>>>> 257204d74758d1c75f22ce2f3c35712fefcb3f38
   check = Movie.find_by(title: res["Title"])
   # t = check.title.downcase
   case check
@@ -261,7 +257,8 @@ def search_api_for_movie(input) #number2
           puts "Genre(s): #{movie.genre}"
           puts "*"*45
           puts "Director: #{   Movie.where({title: movie.title}).first.directors.first.name}"
-          puts "Cast: #{ Movie.where({title: movie.title}).first1.actors.each {|actor| puts actor.name}}"
+          puts "Cast:"
+          Movie.where({title: movie.title}).first.actors.each_with_index {|actor, index| puts "   #{index + 1}. #{actor.name}"}
           puts "Synopsis: #{movie.plot}"
           puts "*"*45
           puts "IMDB rating: #{movie.rating}"
